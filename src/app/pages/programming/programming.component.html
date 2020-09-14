@@ -1,0 +1,285 @@
+<div class="row">
+    <div class="col-md-4">
+
+        <div *ngIf="loading" class="portlet light" style="border: 1px solid #E1E1E1;">
+            <div class="portlet-body">
+                <app-loading-spinner class="text-center"> </app-loading-spinner>
+            </div>
+        </div>
+
+        <div *ngIf="!loading" class="portlet light" style="border: 1px solid #E1E1E1;">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <i class="icon-bar-chart theme-font-color hide"></i>
+                    <span class="caption-subject theme-font-color bold uppercase">BUSCAR CURSOS PROGRAMADOS</span>
+
+                </div>
+
+                <div class="tools">
+                    <button type="button" style="padding: 0px 0px 1px 1px;height: 28px;width: 28px;margin-left: 7px;margin-top: -10px;" (click)="insertProgramming()" class="btn btn-circle green" title="Agregar un nuevo curso"> <i class="fa fa-plus" aria-hidden="true"></i></button>
+
+
+                </div>
+
+            </div>
+            <div class="portlet-body page-quick-sidebar-chat-programmings">
+
+
+                <div class="">
+                    <div class="input-icon right">
+                        <i class="icon-magnifier" (click)="searchProgrammings(input.value)"></i>
+                        <input type="text" class="form-control" #input aria-describedby="search" (keydown)="onKeydown($event, input.value)" aria-label="search" [(ngModel)]="search" name="search" class="form-control" id="navbar-search-input" placeholder="Buscar..." type="text">
+                    </div>
+
+
+                </div>
+
+                <p style="margin-top: 10px;margin-bottom: 10px;opacity: 0.6;">{{results}}</p>
+
+
+                <div class="table-scrollable-borderless">
+
+                    <div class="table-scrollable-borderless">
+
+                        <div *ngFor="let programming of programmings; let i = index" [ngClass]="{'superactive': programming._id == selectedProgramming._id}" (click)="onRowClick(i, programming)" style="cursor: pointer;border-radius: 5px;margin-top:7px;border: 1px solid #E1E1E1;padding-left: 10px;padding-right: 10px;padding-top: 10px;padding-bottom: 10px;">
+
+                            <div style="display: flex;margin-right: 20px;">
+                                <img [src]="programming.teacherImg | image:'teachers'" class="img-responsive" style="cursor: pointer;;height: 50px;width: 50px;border-radius: 50%;" alt="profile image">
+                                <div style="margin-left: 10px;">
+                                    <h4 class="mb-1" style="font-weight:550;font-size:14px;color:#597a96;margin-top: 5px;">{{programming.courseName}} </h4>
+                                    <p class="text-muted mb-1" style="font-size:13px;font-weight:400;color:#aab8c2;margin-top: -5px;">{{programming.teacherName}} {{programming.teacherLastName}}</p>
+                                </div>
+                            </div>
+
+                            <div style="float:right;">
+                                <div class="float-right" style="margin-top: -45px;">
+
+                                    <button type="button" *ngIf="!programming.unsubscribe" class="btn btn-circle red" style="padding: 0px 0px 1px 1px;height: 27px;width: 27px;margin-left: 3px;margin-top: 5px;" data-toggle="modal" data-target="#exampleModalCenter" (click)="deleteProgramming(programming,true)"
+                                        title="Dar de baja al usuario: {{programming.courseName}} "><i class="fa fa-trash"></i></button>
+                                    <button type="button" *ngIf="programming.unsubscribe" class="btn btn-circle green" style="padding: 0px 0px 1px 1px;height: 27px;width: 27px;margin-left: 3px;margin-top: 5px;" data-toggle="modal" data-target="#exampleModalCenter" data-placement="top" (click)="deleteProgramming(programming,false)"
+                                        title="Activar al usuario: {{programming.courseName}} "><i class="fa fa-check"></i></button>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <ng-container *ngIf="programmings">
+                            <div *ngIf="programmings.length === 0" style="height: 50px;border-radius: 5px;margin-top:7px;border: 1px solid #E1E1E1;background-color: transparent;padding-left: 10px;padding-right: 10px;padding-top: 10px;">
+
+                                <div class="text-center" style="margin-top: 3px;">
+                                    <span style="font-size:14px;font-weight:400;opacity: 0.6;"> No se encontraron registros</span>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                    </div>
+
+
+
+                </div>
+
+                <br>
+
+                <ul class="list-inline text-center">
+                    <li>
+                        <button type="button" class="btn btn-circle blue " (click)="changePage(-pageSize)" style="padding: 0px 0px 1px 1px;height: 27px;width: 27px;margin-left: 3px;margin-top: 0px;" data-toggle="tooltip" data-placement="top"><i class="fa fa-chevron-left"></i></button>
+
+                    </li>
+                    <li>
+                        <p class="text-muted mt-1 ml-2 mr-2">Pag. {{page}} de {{totalPages}} </p>
+
+                    </li>
+                    <li>
+                        <button type="button" class="btn btn-circle blue " (click)="changePage(pageSize)" style="padding: 0px 0px 1px 1px;height: 27px;width: 27px;margin-left: 3px;margin-top: 0px;" data-toggle="tooltip" data-placement="top"><i class="fa fa-chevron-right"></i></button>
+
+
+                    </li>
+                </ul>
+
+
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-8">
+
+
+        <div *ngIf="loading4" class="portlet light" style="border: 1px solid #E1E1E1;margin-left: -10px;">
+            <div class="portlet-body">
+                <app-loading-spinner class="text-center"> </app-loading-spinner>
+            </div>
+        </div>
+
+        <div *ngIf="!loading4" class="portlet light" style="border: 1px solid #E1E1E1;margin-left: -10px;">
+            <div class="portlet-title">
+                <div style="border: 1px solid #E1E1E1;background-color: #F9FAFB;border-radius: 5px;margin-top:7px;border: 1px solid #E1E1E1;padding-left: 10px;padding-right: 10px;padding-top: 10px;padding-bottom: 10px;">
+
+                    <div *ngIf="selectedProgramming.teacher" style="display: flex;">
+                        <img *ngIf="selectedProgramming.teacher" [src]="selectedProgramming.teacher.img | image:'teachers'" class="img-responsive" style="height: 100px;width: 100px;border-radius: 50%;" alt="profile image">
+                        <div style="margin-left: 10px;">
+                            <h4 class="mb-1" style="color: #5a7391;
+                            font-size: 22px;
+                            font-weight: 600;" *ngIf="selectedProgramming">{{selectedProgramming.courseName}}</h4>
+                            <p class="text-muted mb-1" style="text-transform: uppercase;
+                            color: #5b9bd1;
+                            font-size: 13px;
+                            font-weight: 800;" *ngIf="selectedProgramming.teacher">Docente: {{selectedProgramming.teacher.name}} {{selectedProgramming.teacher.lastName}} {{selectedProgramming.teacher.secondLastName}}</p>
+                            <p class="text-muted mb-1" *ngIf="selectedProgramming" style="opacity: 0.7;"> INICIO:{{selectedProgramming.startDateShow}}</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+            <div class="portlet-body">
+
+                <form ngNativeValidate #f="ngForm" (ngSubmit)="saveProgramming(f)">
+
+                    <div class="form-group row">
+
+                        <div class="col-md-6">
+                            <label>Curso</label>
+                            <div style="display: flex;">
+                                <select [(ngModel)]="selectedProgramming.courseId" required name="courseId" class="form-control">
+                                            <option value="0">Seleccione curso</option>
+                                            <option *ngFor="let course of courses" [value]="course._id">
+                                              {{ course.name }}
+                                            </option>
+                                        </select>
+                                <i class="fa fa-asterisk ml-2 mt-3" title="El curso es obligatoria" style="color: #FF4747;vertical-align: middle;font-size: 12px;margin-top: 10px;margin-left: 5px;"></i>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Precio ({{selectedProgramming.priceShow}}):</label>
+
+                            <input [(ngModel)]="selectedProgramming.price" maxlength="20" name="price" type="number" class="form-control">
+
+
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>en:</label>
+
+                            <select [(ngModel)]="selectedProgramming.selectedMoney" name="selectedMoney" (change)="changeMoney($event)" class="form-control">
+                                    <option value="Soles">Soles</option>
+                                    <option value="Dolares">Dólares</option>
+                                </select>
+
+
+                        </div>
+
+
+
+
+
+
+                    </div>
+
+
+
+
+                    <div class="form-group row">
+
+                        <div class="col-md-3">
+                            <label>Aula</label>
+                            <select [(ngModel)]="selectedProgramming.classroomId" required name="classroomId" class="form-control">
+                                                                                            <option value="0">Seleccione aula</option>
+                                                                                            <option *ngFor="let classroom of classrooms" [value]="classroom._id">
+                                                                                              {{ classroom.name }}
+                                                                                            </option>
+                                                                </select>
+
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Vacantes:</label>
+
+                            <input [(ngModel)]="selectedProgramming.vacants" name="vacants" type="number" required class="form-control">
+
+
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Turno:</label>
+
+                            <select [(ngModel)]="selectedProgramming.turnId" name="turnId" required class="form-control">
+                                            <option value="0">Seleccione turno</option>
+                                            <option *ngFor="let turn of turns" [value]="turn._id">
+                                              {{ turn.name }}
+                                            </option>
+                </select>
+
+
+                        </div>
+
+                        <div class="col-md-3">
+                            <label>Sección:</label>
+
+                            <select [(ngModel)]="selectedProgramming.sectionId" required name="sectionId" class="form-control">
+                                            <option value="0">Seleccione</option>
+                                            <option *ngFor="let section of sections" [value]="section._id">
+                                              {{ section.name }}
+                                            </option>
+                </select>
+
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row">
+
+                        <div class="col-md-6">
+                            <label>Fecha de inicio:</label>
+                            <input [(ngModel)]="selectedProgramming.startDateShow" name="startDateShow" type="date" class="form-control">
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Docente</label>
+                            <select [(ngModel)]="selectedProgramming.teacherId" name="teacherId" class="form-control">
+                                                                                            <option value="0">Seleccione docente</option>
+                                                                                            <option *ngFor="let teacher of teachers" [value]="teacher._id">
+                                                                                              {{ teacher.name }} {{ teacher.lastName }} {{ teacher.secondLastName }}
+                                                                                            </option>
+                                                                </select>
+
+                        </div>
+
+
+
+
+                    </div>
+
+
+
+                    <br>
+
+                    <div align="center" *ngIf="!loading3">
+                        <input class="btn btn-primary" type="submit" value="Guardar curso" style="width: 130px;height: 45px;border-radius: 2px;">
+                    </div>
+
+
+                    <div align="center" *ngIf="loading3">
+
+                        <div class="text-center bg-primary" style="width: 130px;height: 45px;border-radius: 2px;padding-top: 15px;">
+                            <app-loading-spinner2 class="text-center" style="margin-top: 25px;"> </app-loading-spinner2>
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>

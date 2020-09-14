@@ -1,0 +1,341 @@
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div class="portlet-title">
+                    <div class="caption caption-md">
+                        <i class="icon-bar-chart theme-font-color hide"></i>
+                        <span class="caption-subject theme-font-color bold uppercase">BUSCAR CURSO</span>
+
+                    </div>
+
+
+                </div>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true" >&times;</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body">
+
+                <div class="portlet light ">
+
+                    <div class="portlet-body">
+
+                        <form ngNativeValidate #f="ngForm" style="padding: 5px;" (ngSubmit)="saveEnrollmentDetail(f)">
+                            <div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-12">
+                                        <label>Curso:</label>
+                                        <div style="display: flex;">
+                                            <select [(ngModel)]="selectedEnrollmentDetail.programmingId" (change)="changeProgramming($event)" name="programmingId" required class="form-control">
+                                                    <option value="0">Seleccione curso</option>
+                                                    <option *ngFor="let programming of programmings" [value]="programming._id">
+                                                      {{ programming.courseName }}  
+                                                    </option>
+                                                </select>
+                                            <i class="fa fa-asterisk ml-2 mt-3" title="El alumno es obligatorio" style="color: #FF4747;vertical-align: middle;font-size: 12px;margin-top: 10px;margin-left: 5px;"></i>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="modal-footer" style="margin-right: 2px;">
+
+                                <button type="submit" *ngIf="!loading4" class="btn btn-primary" style="width: 125px;">AGREGAR</button>
+
+                                <div align="center" *ngIf="loading4">
+
+                                    <div class="stext-center bg-primary" style="width: 125px;height: 45px;border-radius: 2px;margin-top: -1px;">
+                                        <div class="dot-opacity-loader">
+                                            <span style="height: 10px;width: 10px;background-color: white;margin-top: 17px;"></span>
+                                            <span style="height: 10px;width: 10px;background-color: white;margin-top: 17px;"></span>
+                                            <span style="height: 10px;width: 10px;background-color: white;margin-top: 17px;"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <button #btnCloseModal type="button" class="btn btn-secondary" style="width: 100px;" data-dismiss="modal">CERRAR</button>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-md-4">
+
+        <div *ngIf="loading" class="portlet light" style="border: 1px solid #E1E1E1;">
+            <div class="portlet-body">
+                <app-loading-spinner class="text-center"> </app-loading-spinner>
+            </div>
+        </div>
+
+        <div *ngIf="!loading" class="portlet light" style="border: 1px solid #E1E1E1;">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <i class="icon-bar-chart theme-font-color hide"></i>
+                    <span class="caption-subject theme-font-color bold uppercase">BUSCAR ALUMNO MATRICULADO</span>
+
+                </div>
+
+                <!-- <div class="tools">
+                    <button type="button" style="padding: 0px 0px 1px 1px;height: 28px;width: 28px;margin-left: 7px;margin-top: -10px;" (click)="insertEnrollment()" class="btn btn-circle green" title="Agregar un nuevo usuario"> <i class="fa fa-plus" aria-hidden="true"></i></button>
+                </div> -->
+
+            </div>
+            <div class="portlet-body page-quick-sidebar-chat-enrollments">
+
+
+                <div class="">
+                    <div class="input-icon right">
+                        <i class="icon-magnifier" (click)="searchEnrollments(input.value)"></i>
+                        <input type="text" class="form-control" #input aria-describedby="search" (keydown)="onKeydown($event, input.value)" aria-label="search" [(ngModel)]="search" name="search" class="form-control" id="navbar-search-input" placeholder="Buscar..." type="text">
+                    </div>
+
+
+                </div>
+
+                <p style="margin-top: 10px;margin-bottom: 10px;opacity: 0.6;">{{results}}</p>
+
+
+                <div class="table-scrollable-borderless">
+
+                    <div *ngFor="let enrollment of enrollments; let i = index" [ngClass]="{'superactive': enrollment._id == selectedEnrollment._id}" (click)="onRowClick(i, enrollment)" style="cursor: pointer;border-radius: 5px;margin-top:7px;border: 1px solid #E1E1E1;padding-left: 10px;padding-right: 10px;padding-top: 10px;padding-bottom: 10px;">
+
+                        <div *ngIf="selectedEnrollment" style="display: flex;">
+                            <img [src]="enrollment.studentImg | image:'students'" class="img-responsive" style="cursor: pointer;;height: 50px;width: 50px;border-radius: 50%;" alt="profile image">
+                            <div style="margin-left: 10px;margin-right: 20px;">
+                                <h4 class="mb-1" style="font-weight:550;font-size:14px;color:#597a96;margin-top: 5px;">{{enrollment.studentName}} {{enrollment.studentSecondLastName}} {{enrollment.studentSecondLastName}}</h4>
+                                <p class="text-muted mb-1" style="font-size:13px;font-weight:400;color:#aab8c2;margin-top: -5px;">{{enrollment.studentEmail}}</p>
+                            </div>
+                        </div>
+
+                        <div style="float:right;">
+                            <div class="float-right" style="margin-top: -45px;">
+
+                                <button type="button" *ngIf="!enrollment.unsubscribe" class="btn btn-circle red" style="padding: 0px 0px 1px 1px;height: 27px;width: 27px;margin-left: 3px;margin-top: 5px;" data-toggle="modal" data-target="#exampleModalCenter" (click)="deleteEnrollment(enrollment,true)"
+                                    title="Dar de baja la matrícula de : {{enrollment.studentName}} {{enrollment.studentLastName}}"><i class="fa fa-trash"></i></button>
+                                <button type="button" *ngIf="enrollment.unsubscribe" class="btn btn-circle green" style="padding: 0px 0px 1px 1px;height: 27px;width: 27px;margin-left: 3px;margin-top: 5px;" data-toggle="modal" data-target="#exampleModalCenter" data-placement="top" (click)="deleteEnrollment(enrollment,false)"
+                                    title="Activar la matrícula de: {{enrollment.studentName}} {{enrollment.studentLastName}}"><i class="fa fa-check"></i></button>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <ng-container *ngIf="enrollments">
+                        <div *ngIf="enrollments.length === 0" style="height: 50px;border-radius: 5px;margin-top:7px;border: 1px solid #E1E1E1;background-color: transparent;padding-left: 10px;padding-right: 10px;padding-top: 10px;">
+
+                            <div class="text-center" style="margin-top: 3px;">
+                                <span style="font-size:14px;font-weight:400;opacity: 0.6;"> No se encontraron registros</span>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                </div>
+
+                <br>
+
+                <ul class="list-inline text-center">
+                    <li>
+                        <button type="button" class="btn btn-circle blue " (click)="changePage(-pageSize)" style="padding: 0px 0px 1px 1px;height: 27px;width: 27px;margin-left: 3px;margin-top: 0px;" data-toggle="tooltip" data-placement="top"><i class="fa fa-chevron-left"></i></button>
+
+                    </li>
+                    <li>
+                        <p class="text-muted mt-1 ml-2 mr-2">Pag. {{page}} de {{totalPages}} </p>
+
+                    </li>
+                    <li>
+                        <button type="button" class="btn btn-circle blue " (click)="changePage(pageSize)" style="padding: 0px 0px 1px 1px;height: 27px;width: 27px;margin-left: 3px;margin-top: 0px;" data-toggle="tooltip" data-placement="top"><i class="fa fa-chevron-right"></i></button>
+
+
+                    </li>
+                </ul>
+
+
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-8">
+
+        <div *ngIf="loading4" class="portlet light" style="border: 1px solid #E1E1E1;margin-left: -10px;">
+            <div class="portlet-body">
+                <app-loading-spinner class="text-center"> </app-loading-spinner>
+            </div>
+        </div>
+
+        <div *ngIf="!loading4" class="portlet light" style="border: 1px solid #E1E1E1;margin-left: -10px;">
+
+
+            <div style="border: 1px solid #E1E1E1;background-color: #F9FAFB;border-radius: 5px;margin-top:7px;border: 1px solid #E1E1E1;padding-left: 10px;padding-right: 10px;padding-top: 10px;padding-bottom: 10px;">
+
+                <div *ngIf="selectedEnrollment" style="display: flex;">
+                    <img *ngIf="mode === 2" [src]="selectedEnrollment.studentImg | image:'students'" class="img-responsive" style="height: 100px;width: 100px;border-radius: 50%;" alt="profile image">
+
+                    <div style="margin-left: 10px;">
+                        <h4 class="mb-1" style="color: #5a7391;
+                        font-size: 22px;
+                        font-weight: 600;">{{selectedEnrollment.studentName}} {{selectedEnrollment.studentLastName}} {{selectedEnrollment.studentSecondLastName}}</h4>
+                        <p class="text-muted mb-1" style="    text-transform: uppercase;
+                        color: #5b9bd1;
+                        font-size: 13px;
+                        font-weight: 800;">{{selectedEnrollment.studentEmail}}</p>
+                        <p class="text-muted mb-1" style="opacity: 0.7;">{{selectedEnrollment.studentPhone}}</p>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+            <div class="portlet-body">
+                <!--BEGIN TABS-->
+                <form ngNativeValidate #f="ngForm" style="padding: 5px;" (ngSubmit)="saveEnrollment(f)">
+                    <div>
+
+                        <div class="form-group row">
+                            <div class="col-md-6">
+                                <label>Alumno:</label>
+                                <div style="display: flex;">
+                                    <select [(ngModel)]="selectedEnrollment.studentId" name="studentId" required class="form-control">
+                                                <option value="0">Seleccione alumno</option>
+                                                <option *ngFor="let student of students" [value]="student._id">
+                                                  {{ student.name }}  {{ student.lastName }}  {{ student.secondLastName }}
+                                                </option>
+                    </select>
+                                    <i class="fa fa-asterisk ml-2 mt-3" title="El alumno es obligatorio" style="color: #FF4747;vertical-align: middle;font-size: 12px;margin-top: 10px;margin-left: 5px;"></i>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <label>Fecha:</label>
+                                <div style="display: flex;">
+                                    <input [(ngModel)]="selectedEnrollment.enrollmentDateShow" name="enrollmentDateShow" required type="date" class="form-control">
+                                    <i class="fa fa-asterisk ml-2 mt-3" title="La fecha de matrícula es obligatoria" style="color: #FF4747;vertical-align: middle;font-size: 12px;margin-top: 10px;margin-left: 5px;"></i>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div *ngIf="mode==2" class="form-group row">
+
+                            <div class="col-md-12">
+
+                                <div>
+
+                                    <label class="text-muted mb-1" style="margin-top: 10px;margin-left: 10px;text-transform: uppercase;
+                                            color: #5b9bd1;
+                                            font-size: 13px;
+                                            font-weight: 800;">Cursos</label>
+
+                                    <button type="button" (click)="insertEnrollmentDetail()" class="btn btn-circle green" style="padding: 0px 0px 1px 1px;height: 27px;width: 27px;margin-right: 10px;margin-top: 10px;float:right;" title="Agregar un curso" data-toggle="modal" data-target="#exampleModal1"><i class="fa fa-plus"></i></button>
+
+
+                                    <hr>
+
+                                    <ng-container *ngIf="selectedEnrollment.enrollmentDetails">
+                                        <div *ngIf="selectedEnrollment.enrollmentDetails.length === 0" style="height: 50px;border-radius: 5px;margin-top:7px;border: 1px solid #E1E1E1;background-color: transparent;padding-left: 10px;padding-right: 10px;padding-top: 10px;">
+
+                                            <div class="text-center" style="margin-top: 3px;">
+                                                <span style="font-size:14px;font-weight:400;"> No se encontraron cursos</span>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+
+                                    <div *ngFor="let detail of selectedEnrollment.enrollmentDetails; let i = index" (click)="onRowClickEnrollmentDetail(i,detail)" [ngClass]="{'superactive': i == selectedRowEnrollmentDetail}" style="height: 50px;border-radius: 5px;margin:7px;border: 1px solid #E1E1E1;background-color: transparent;padding-left: 10px;padding-right: 10px;padding-top: 10px;">
+
+                                        <div style="margin-right: 0px;">
+                                            <span title="{{detail.courseName}}" style="font-weight:450;font-size:14px;color:#597a96;margin-top: 3px;cursor: pointer;" data-toggle="modal" data-target="#exampleModal1">
+                                                                   {{detail.courseName}}
+                                                                </span>
+                                            <button type="button" class="btn btn-circle red" (click)="deleteEnrollmentDetail(detail, true)" style="padding: 0px 0px 1px 1px;height: 27px;width: 27px;margin-left: 3px;margin-top: 0px;float: right;" title="Dar de baja al rol: {{detail.courseName}} "><i class="fa fa-trash"></i></button>
+
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <label for="exampleTextarea1">Observación:</label>
+                                <textarea [(ngModel)]="selectedEnrollment.observation" maxlength="250" style="height: 70px;" name="observation" class="form-control" rows="4"></textarea>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <br>
+                    <hr>
+
+                    <div align="center" *ngIf="!loading3">
+                        <input class="btn btn-primary" type="submit" value="Guardar matrícula" style="width: 170px;height: 45px;border-radius: 2px;">
+                    </div>
+
+
+                    <div align="center" *ngIf="loading3">
+
+                        <div class="stext-center bg-primary" style="width: 170px;height: 45px;border-radius: 2px;">
+                            <div class="dot-opacity-loader">
+                                <span style="height: 10px;width: 10px;background-color: white;margin-top: 17px;"></span>
+                                <span style="height: 10px;width: 10px;background-color: white;margin-top: 17px;"></span>
+                                <span style="height: 10px;width: 10px;background-color: white;margin-top: 17px;"></span>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+                </form>
+
+                <!--END TABS-->
+            </div>
+        </div>
+
+
+
+    </div>
+</div>

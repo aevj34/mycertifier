@@ -1,0 +1,293 @@
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <div class="portlet-title">
+                    <div class="caption caption-md">
+                        <i class="icon-bar-chart theme-font-color hide"></i>
+                        <span class="caption-subject theme-font-color bold uppercase">BUSCAR ALUMNO</span>
+
+                    </div>
+                </div>
+
+                <button #btnCloseModal type="button" class="close" data-dismiss="modal" aria-label="Close">
+                     <span aria-hidden="true" >&times;</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body">
+
+                <div class="portlet light" style="border: 1px solid #E1E1E1;">
+
+                    <div class="portlet-body page-quick-sidebar-chat-students">
+
+                        <div class="">
+                            <div class="input-icon right">
+                                <i class="icon-magnifier" (click)="searchStudents(input2.value)"></i>
+                                <input type="text" class="form-control" #input2 aria-describedby="search" (keydown)="onKeydown2($event, input2.value)" aria-label="search" [(ngModel)]="search2" name="search2" class="form-control" id="navbar-search-input2" placeholder="Buscar..." type="text">
+                            </div>
+
+                        </div>
+
+                        <p style="margin-top: 10px;margin-bottom: 10px;opacity: 0.6;">{{results2}}</p>
+
+                        <div class="table-scrollable-borderless">
+
+                            <div *ngFor="let student of students; let i = index" [ngClass]="{'superactive': i == selectedRowStudent2}" (click)="onRowClickStudent2(i)" style="border-radius: 5px;margin-top:7px;border: 1px solid #E1E1E1;padding-left: 10px;padding-right: 10px;padding-top: 10px;padding-bottom: 10px;">
+
+                                <div style="display: flex;">
+                                    <img [src]="student.img | image:'students'" class="img-responsive" style="height: 50px;width: 50px;border-radius: 50%;" alt="profile image">
+                                    <div style="margin-left: 10px;">
+                                        <h4 class="mb-1" style="font-weight:550;font-size:14px;color:#597a96;margin-top: 5px;">{{student.name}} {{student.lastName}}</h4>
+                                        <p class="text-muted mb-1" style="font-size:13px;font-weight:400;color:#aab8c2;margin-top: -5px;">{{student.email}}</p>
+                                    </div>
+                                </div>
+
+                                <div style="float:right;">
+                                    <div class="float-right" style="margin-top: -45px;">
+
+                                        <button type="button" (click)="saveEnrollment(student)" class="btn red" style="margin-left: 3px;margin-top: 5px;" title="Matricular al alumno: {{student.name}} ">
+                                            MATRICULAR
+                                        </button>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+
+                        </div>
+
+                        <br>
+
+                        <ul class="list-inline text-center">
+                            <li>
+                                <button type="button" class="btn btn-circle blue " (click)="changePage(-pageSize)" style="padding: 0px 0px 1px 1px;height: 27px;width: 27px;margin-left: 3px;margin-top: 0px;" data-toggle="tooltip" data-placement="top"><i class="fa fa-chevron-left"></i></button>
+
+                            </li>
+                            <li>
+                                <p class="text-muted mt-1 ml-2 mr-2">Pag. {{page}} de {{totalPages}} </p>
+
+                            </li>
+                            <li>
+                                <button type="button" class="btn btn-circle blue " (click)="changePage(pageSize)" style="padding: 0px 0px 1px 1px;height: 27px;width: 27px;margin-left: 3px;margin-top: 0px;" data-toggle="tooltip" data-placement="top"><i class="fa fa-chevron-right"></i></button>
+
+
+                            </li>
+                        </ul>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-4">
+
+        <div *ngIf="loading" class="portlet light" style="border: 1px solid #E1E1E1;">
+            <div class="portlet-body">
+                <app-loading-spinner class="text-center"> </app-loading-spinner>
+            </div>
+        </div>
+
+        <div *ngIf="!loading" class="portlet light" style="border: 1px solid #E1E1E1;">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <i class="icon-bar-chart theme-font-color hide"></i>
+                    <span class="caption-subject theme-font-color bold uppercase">MATRÍCULA</span>
+
+                </div>
+
+                <div class="tools">
+
+
+                </div>
+
+            </div>
+            <div class="portlet-body page-quick-sidebar-chat-programmings">
+
+
+                <div class="">
+                    <div class="input-icon right">
+                        <i class="icon-magnifier" (click)="searchProgrammings(input.value)"></i>
+                        <input type="text" class="form-control" #input aria-describedby="search" (keydown)="onKeydown($event, input.value)" aria-label="search" [(ngModel)]="search" name="search" class="form-control" id="navbar-search-input" placeholder="Buscar..." type="text">
+                    </div>
+
+
+                </div>
+
+                <p style="margin-top: 10px;margin-bottom: 10px;opacity: 0.6;">{{results}}</p>
+
+
+                <div class="table-scrollable-borderless">
+
+                    <div class="table-scrollable-borderless">
+
+                        <div *ngFor="let programming of programmings; let i = index" [ngClass]="{'superactive': programming._id == selectedProgramming._id}" (click)="onRowClick(i, programming)" style="cursor: pointer;border-radius: 5px;margin-top:7px;border: 1px solid #E1E1E1;padding-left: 10px;padding-right: 10px;padding-top: 10px;padding-bottom: 10px;">
+
+                            <div style="display: flex;margin-right: 0px;">
+                                <img [src]="programming.teacherImg | image:'teachers'" class="img-responsive" style="cursor: pointer;;height: 50px;width: 50px;border-radius: 50%;" alt="profile image">
+                                <div style="margin-left: 10px;">
+                                    <h4 class="mb-1" style="font-weight:550;font-size:14px;color:#597a96;margin-top: 5px;">{{programming.courseName}} </h4>
+                                    <p class="text-muted mb-1" style="font-size:13px;font-weight:400;color:#aab8c2;margin-top: -5px;">Docente: {{programming.teacherName}} {{ programming.teacherLastName}}</p>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+
+
+
+                    </div>
+
+                    <ng-container *ngIf="programmings">
+                        <div *ngIf="programmings.length === 0" style="height: 50px;border-radius: 5px;margin-top:7px;border: 1px solid #E1E1E1;background-color: transparent;padding-left: 10px;padding-right: 10px;padding-top: 10px;">
+
+                            <div class="text-center" style="margin-top: 3px;">
+                                <span style="font-size:14px;font-weight:400;opacity: 0.6;"> No se encontraron registros</span>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                </div>
+
+                <br>
+
+                <ul class="list-inline text-center">
+                    <li>
+                        <button type="button" class="btn btn-circle blue " (click)="changePage(-pageSize)" style="padding: 0px 0px 1px 1px;height: 27px;width: 27px;margin-left: 3px;margin-top: 0px;" data-toggle="tooltip" data-placement="top"><i class="fa fa-chevron-left"></i></button>
+
+                    </li>
+                    <li>
+                        <p class="text-muted mt-1 ml-2 mr-2">Pag. {{page}} de {{totalPages}} </p>
+
+                    </li>
+                    <li>
+                        <button type="button" class="btn btn-circle blue " (click)="changePage(pageSize)" style="padding: 0px 0px 1px 1px;height: 27px;width: 27px;margin-left: 3px;margin-top: 0px;" data-toggle="tooltip" data-placement="top"><i class="fa fa-chevron-right"></i></button>
+
+
+                    </li>
+                </ul>
+
+
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-8">
+
+        <div *ngIf="loading4" class="portlet light" style="border: 1px solid #E1E1E1;margin-left: -10px;">
+            <div class="portlet-body">
+                <app-loading-spinner class="text-center"> </app-loading-spinner>
+            </div>
+        </div>
+
+        <div *ngIf="!loading4" class="portlet light" style="border: 1px solid #E1E1E1;margin-left: -10px;">
+
+            <div style="border: 1px solid #E1E1E1;background-color: #F9FAFB;border-radius: 5px;margin-top:7px;border: 1px solid #E1E1E1;padding-left: 10px;padding-right: 10px;padding-top: 10px;padding-bottom: 10px;">
+
+                <div *ngIf="selectedProgramming.teacher" style="display: flex;">
+                    <img *ngIf="selectedProgramming.teacher" [src]="selectedProgramming.teacher.img | image:'teachers'" class="img-responsive" style="height: 100px;width: 100px;border-radius: 50%;" alt="profile image">
+                    <div style="margin-left: 10px;">
+                        <h4 class="mb-1" style="color: #5a7391;
+                            font-size: 22px;
+                            font-weight: 600;" *ngIf="selectedProgramming">{{selectedProgramming.courseName}}</h4>
+                        <p class="text-muted mb-1" style="text-transform: uppercase;
+                            color: #5b9bd1;
+                            font-size: 13px;
+                            font-weight: 800;" *ngIf="selectedProgramming.teacher">Docente: {{selectedProgramming.teacher.name}} {{selectedProgramming.teacher.lastName}} {{selectedProgramming.teacher.secondLastName}}</p>
+                        <p class="text-muted mb-1" *ngIf="selectedProgramming" style="opacity: 0.7;"> INICIO:{{selectedProgramming.startDateShow}}</p>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="portlet-title tabbable-line">
+
+                <ul class="nav nav-tabs">
+                    <li class="active" style="height: 50px;">
+                        <a href="#tab_1_1" data-toggle="tab" aria-expanded="true" style="margin-top: 3px;">
+                            ALUMNOS MATRICULADOS 
+                            <button type="button" style="padding: 0px 0px 1px 1px;height: 28px;width: 28px;margin-left: 7px;margin-top: -10px;" class="btn btn-circle green" title="Matricular un nuevo alumno al curso" data-toggle="modal" data-target="#exampleModal1"> <i class="fa fa-plus" aria-hidden="true"></i>
+                            </button>
+                        </a>
+
+                    </li>
+
+                </ul>
+            </div>
+
+            <div class="portlet-body">
+                <!--BEGIN TABS-->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_1_1">
+
+                        <div *ngIf="loading5" class="portlet light" style="border: 1px solid #E1E1E1;margin-left: -10px;">
+                            <div class="portlet-body">
+                                <app-loading-spinner class="text-center"> </app-loading-spinner>
+                            </div>
+                        </div>
+
+                        <div *ngIf="!loading5" class="table-scrollable-borderless">
+
+                            <div *ngFor="let student of enrolledStudents; let i = index" [ngClass]="{'superactive': i == selectedRowStudent}" (click)="onRowClickStudent(i)" style="cursor: pointer;border-radius: 5px;margin-top:7px;border: 1px solid #E1E1E1;padding-left: 10px;padding-right: 10px;padding-top: 10px;padding-bottom: 10px;">
+
+                                <div style="display: flex;">
+                                    <img [src]="student.studentImg | image:'students'" class="img-responsive" style="cursor: pointer;;height: 50px;width: 50px;border-radius: 50%;" alt="profile image">
+                                    <div style="margin-left: 10px;">
+                                        <h4 class="mb-1" style="font-weight:550;font-size:14px;color:#597a96;margin-top: 5px;">{{student.studentName}} {{student.studentLastName}}</h4>
+                                        <p class="text-muted mb-1" style="font-size:13px;font-weight:400;color:#aab8c2;margin-top: -5px;">{{student.studentEmail}}</p>
+                                    </div>
+                                </div>
+
+                                <div style="float:right;">
+                                    <div class="float-right" style="margin-top: -45px;">
+
+                                        <button type="button" class="btn red" style="margin-top: 0px;" (click)="deleteEnrollment(student._id,true,student.enrollmentId, student)" title="Dar de baja la matrícula del alumno: {{student.studentName}} {{student.studentLastName}} {{ student.studentSecondLastName}}">
+                                            ANULAR MATRÍCULA
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div *ngIf="students.length === 0" class="d-flex justify-content-center" style="margin-top: 8px;">
+                                <span style="font-size:14px;font-weight:400;color:#aab8c2;"> No se encontraron registros </span> </div>
+                            <hr *ngIf="students.length === 0">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!--END TABS-->
+
+            </div>
+
+
+
+
+        </div>
+
+
+
+    </div>
+</div>

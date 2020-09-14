@@ -1,1 +1,71 @@
 /* You can add global styles to this file, and also import other style files */
+
+.superactive {
+    background-color: #F9FAFB !important;
+    /* border: 1px solid #424351;
+    border-radius: 7px;
+    margin-bottom: 0.812rem;
+    font-size: .9375rem; */
+}
+
+.app a {
+    height: 18px;
+    width: 120px;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    display: inline-block;
+    margin: 0 5px 0 5px;
+    text-align: center;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #000;
+}
+
+.ellipsis_cell>div {
+    position: relative;
+    overflow: hidden;
+    height: 1.9em;
+    vertical-align: middle;
+}
+
+
+/* visible content */
+
+.ellipsis_cell>div>span {
+    display: block;
+    position: absolute;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.7em;
+}
+
+.oculto {
+    display: none;
+}
+
+.w150 {
+    width: 150px;
+}
+
+.dot {
+    height: 27px;
+    width: 27px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.loader {
+    border: 3px solid #CED4DA;
+    /* Light grey */
+    border-top: 3px solid #3498db;
+    /* Blue */
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    animation: spin 2s linear infinite;
+}

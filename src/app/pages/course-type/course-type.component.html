@@ -1,0 +1,171 @@
+<div class="row">
+    <div class="col-md-4">
+
+        <div *ngIf="loading" class="portlet light" style="border: 1px solid #E1E1E1;">
+            <div class="portlet-body">
+                <app-loading-spinner class="text-center"> </app-loading-spinner>
+            </div>
+        </div>
+
+        <div *ngIf="!loading" class="portlet light" style="border: 1px solid #E1E1E1;">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <i class="icon-bar-chart theme-font-color hide"></i>
+                    <span class="caption-subject theme-font-color bold uppercase">BUSCAR TIPOS DE CURSO</span>
+                </div>
+
+                <div class="tools">
+                    <button type="button" style="padding: 0px 0px 1px 1px;height: 28px;width: 28px;margin-left: 7px;margin-top: -10px;" (click)="insertCourseType()" class="btn btn-circle green" title="Agregar un nuevo curso"> <i class="fa fa-plus" aria-hidden="true"></i></button>
+
+
+                </div>
+
+            </div>
+            <div class="portlet-body page-quick-sidebar-chat-courseTypes">
+
+
+                <div class="">
+                    <div class="input-icon right">
+                        <i class="icon-magnifier" (click)="searchCourseTypes(input.value)"></i>
+                        <input type="text" class="form-control" #input aria-describedby="search" (keydown)="onKeydown($event, input.value)" aria-label="search" [(ngModel)]="search" name="search" class="form-control" id="navbar-search-input" placeholder="Buscar..." type="text">
+                    </div>
+
+
+                </div>
+
+                <p style="margin-top: 10px;margin-bottom: 10px;opacity: 0.6;">{{results}}</p>
+
+
+                <div class="table-scrollable-borderless">
+
+
+                    <div *ngFor="let courseType of courseTypes; let i = index" (click)="onRowClick(i, courseType)" style="cursor: pointer;height: 80px;border-radius: 5px;margin-top:7px;border: 1px solid #E1E1E1;background-color: transparent;padding-left: 10px;padding-right: 10px;padding-top: 10px;"
+                        [ngClass]="{'superactive': i == selectedRow}">
+                        <div class="ellipsis_cell" style="vertical-align: middle;padding-bottom: 0px;">
+
+
+                            <div style="margin-right: 40px;">
+                                <span title="{{courseType.name}}" style="font-weight:550;font-size:14px;color:#597a96;margin-top: 3px;">
+                                        {{courseType.name}}
+                                      </span>
+
+
+                            </div>
+
+                            <div style="margin-right: 40px;">
+                                <span style="font-size:13px;font-weight:400;color:#aab8c2;margin-top: 1px;">
+                                    Tipo: {{courseType.name}}
+                                           </span>
+                            </div>
+
+                        </div>
+                        <div style="float:right;">
+                            <div class="float-right" style="margin-top: -35px;">
+
+                                <button type="button" *ngIf="!courseType.unsubscribe" class="btn btn-circle red" style="padding: 0px 0px 1px 1px;height: 27px;width: 27px;margin-left: 3px;margin-top: 5px;" data-toggle="modal" data-target="#exampleModalCenter" (click)="deleteCourseType(courseType,true)"
+                                    title="Dar de baja al rol: {{courseType.name}} "><i class="fa fa-trash"></i></button>
+                                <button type="button" *ngIf="courseType.unsubscribe" class="btn btn-circle green" style="padding: 0px 0px 1px 1px;height: 27px;width: 27px;margin-left: 3px;margin-top: 5px;" data-toggle="modal" data-target="#exampleModalCenter" data-placement="top" (click)="deleteCourseType(courseType,false)"
+                                    title="Activar al rol: {{courseType.name}} "><i class="fa fa-check"></i></button>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <ng-container *ngIf="courseTypes">
+                        <div *ngIf="courseTypes.length === 0" style="height: 50px;border-radius: 5px;margin-top:7px;border: 1px solid #E1E1E1;background-color: transparent;padding-left: 10px;padding-right: 10px;padding-top: 10px;">
+
+                            <div class="text-center" style="margin-top: 3px;">
+                                <span style="font-size:14px;font-weight:400;opacity: 0.6;"> No se encontraron registros</span>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                </div>
+
+                <br>
+
+                <ul class="list-inline text-center">
+                    <li>
+                        <button type="button" class="btn btn-circle blue " (click)="changePage(-pageSize)" style="padding: 0px 0px 1px 1px;height: 27px;width: 27px;margin-left: 3px;margin-top: 0px;" data-toggle="tooltip" data-placement="top"><i class="fa fa-chevron-left"></i></button>
+
+                    </li>
+                    <li>
+                        <p class="text-muted mt-1 ml-2 mr-2">Pag. {{page}} de {{totalPages}} </p>
+
+                    </li>
+                    <li>
+                        <button type="button" class="btn btn-circle blue " (click)="changePage(pageSize)" style="padding: 0px 0px 1px 1px;height: 27px;width: 27px;margin-left: 3px;margin-top: 0px;" data-toggle="tooltip" data-placement="top"><i class="fa fa-chevron-right"></i></button>
+
+
+                    </li>
+                </ul>
+
+
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-8">
+
+        <div *ngIf="loading4" class="portlet light" style="border: 1px solid #E1E1E1;margin-left: -10px;">
+            <div class="portlet-body">
+                <app-loading-spinner class="text-center"> </app-loading-spinner>
+            </div>
+        </div>
+
+        <div *ngIf="!loading4" class="portlet light" style="border: 1px solid #E1E1E1;margin-left: -10px;">
+            <div class="portlet-title ">
+                <div class="caption caption-md">
+                    <i class="icon-globe theme-font-color hide"></i>
+                    <span class="caption-subject theme-font-color bold uppercase">{{selectedCourseType.name}}</span>
+                </div>
+
+            </div>
+            <div class="portlet-body">
+                <!--BEGIN TABS-->
+                <form ngNativeValidate #f="ngForm" style="padding-left: 15px;padding-right: 15px;" (ngSubmit)="saveCourseType(f)">
+
+
+                    <div class="form-group row">
+                        <div class="col">
+                            <label>Nombre:</label>
+                            <div style="display: flex;">
+                                <input [(ngModel)]="selectedCourseType.name" name="name" required type="text" class="form-control">
+                                <i class="fa fa-asterisk ml-2 mt-3" title="El nombre del tipo es obligatorio" style="color: #FF4747;vertical-align: middle;font-size: 12px;margin-top: 10px;margin-left: 5px;"></i>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+                    <div align="center" *ngIf="!loading3">
+                        <input class="btn btn-primary" type="submit" value="Guardar tipo" style="width: 130px;height: 45px;border-radius: 2px;">
+                    </div>
+
+
+                    <div align="center" *ngIf="loading3">
+
+                        <div class="text-center bg-primary" style="width: 130px;height: 45px;border-radius: 2px;padding-top: 15px;">
+                            <app-loading-spinner2 class="text-center" style="margin-top: 25px;"> </app-loading-spinner2>
+                        </div>
+
+                    </div>
+
+
+
+
+                </form>
+
+                <!--END TABS-->
+            </div>
+        </div>
+
+
+
+    </div>
+</div>

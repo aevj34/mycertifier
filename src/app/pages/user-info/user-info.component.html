@@ -1,0 +1,242 @@
+<app-modal-upload-image></app-modal-upload-image>
+
+<div class="row">
+    <div class="col-md-4">
+
+
+        <div class="profile-sidebar">
+            <!-- PORTLET MAIN -->
+            <div class="portlet light profile-sidebar-portlet">
+                <!-- SIDEBAR USERPIC -->
+                <div class="profile-userpic">
+                    <img [src]="selectedUser.img | image:'users'" class="img-responsive" alt="">
+                </div>
+                <!-- END SIDEBAR USERPIC -->
+                <!-- SIDEBAR USER TITLE -->
+                <div class="profile-usertitle">
+                    <div class="profile-usertitle-name">
+                        {{selectedUser.name}} {{selectedUser.lastName}}
+                    </div>
+                    <div class="profile-usertitle-job">
+                        {{selectedUser.email}}
+                    </div>
+                </div>
+                <!-- END SIDEBAR USER TITLE -->
+                <!-- SIDEBAR BUTTONS -->
+                <div class="profile-userbuttons" style="height: 50px;">
+
+                </div>
+                <!-- END SIDEBAR BUTTONS -->
+
+            </div>
+            <!-- END PORTLET MAIN -->
+
+        </div>
+
+
+    </div>
+
+    <div class="col-md-8">
+
+        <div class="portlet light" style="border: 1px solid #E1E1E1;margin-left: -10px;">
+
+            <div class="portlet-title tabbable-line">
+                <div class="caption caption-md">
+                    <i class="icon-globe theme-font-color hide"></i>
+                    <span class="caption-subject theme-font-color bold uppercase">{{selectedUser.name}} {{selectedUser.lastName}} {{selectedUser.secondLastName}}</span>
+                </div>
+                <ul class="nav nav-tabs">
+                    <li class="active" style="height: 50px;">
+                        <a href="#tab_1_1" data-toggle="tab" aria-expanded="true">
+                    DATOS DEL USUARIO </a>
+                    </li>
+                    <li class="" style="height: 50px;">
+                        <a href="#tab_1_2" data-toggle="tab" aria-expanded="false">
+                    CAMBIAR CONTRASEÑA
+                  </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="portlet-body">
+                <!--BEGIN TABS-->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_1_1">
+                        <form ngNativeValidate #f="ngForm" style="padding: 5px;" (ngSubmit)="saveUser(f)">
+                            <div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <label>Nombre:</label>
+
+                                        <div style="display: flex;">
+                                            <input [(ngModel)]="selectedUser.name" name="name" type="text" class="form-control">
+                                            <i class="fa fa-asterisk ml-2 mt-3" title="El nombre del apoderado es obligatorio" style="color: #FF4747;vertical-align: middle;font-size: 12px;margin-top: 10px;margin-left: 5px;"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Segundo nombre:</label>
+                                        <input [(ngModel)]="selectedUser.secondName" name="secondName" type="text" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <label>Ap. paterno:</label>
+
+                                        <div style="display: flex;">
+                                            <input [(ngModel)]="selectedUser.lastName" name="lastName" required type="text" class="form-control">
+                                            <i class="fa fa-asterisk ml-2 mt-3" title="El apellido paterno del apoderado es obligatorio" style="color: #FF4747;vertical-align: middle;font-size: 12px;margin-top: 10px;margin-left: 5px;"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Ap. materno:</label>
+                                        <input [(ngModel)]="selectedUser.secondLastName" name="secondLastName" type="text" class="form-control">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+
+                                    <div class="col-md-6">
+                                        <label>Documento:</label>
+                                        <div style="display: flex;">
+                                            <input [(ngModel)]="selectedUser.document" name="document" required type="text" class="form-control">
+                                            <i class="fa fa-asterisk ml-2 mt-3" title="El nro de documento del apoderado es obligatorio" style="color: #FF4747;vertical-align: middle;font-size: 12px;margin-top: 10px;margin-left: 5px;"></i>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label>Sexo:</label>
+
+                                        <select [(ngModel)]="selectedUser.sex" name="sex" class="form-control">
+                                            <option value="">Seleccione sexo</option>
+                                            <option value="Masculino">Masculino</option>
+                                            <option value="Femenino">Femenino</option>
+                                        </select>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="border-bottom mb-3 mt-3">
+
+                                </div>
+
+
+
+                                <div class="form-group row">
+
+                                    <div class="col-md-6">
+                                        <label>Correo:</label>
+
+                                        <div style="display: flex;">
+                                            <input [(ngModel)]="selectedUser.email" name="email" type="email" required class="form-control">
+                                            <i class="fa fa-asterisk ml-2 mt-3" title="El correo del apoderado es obligatorio" style="color: #FF4747;vertical-align: middle;font-size: 12px;margin-top: 10px;margin-left: 5px;"></i>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label>Celular:</label>
+                                        <input [(ngModel)]="selectedUser.phone" name="phone" type="text" class="form-control">
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+                            <br>
+                            <hr>
+
+                            <div align="center" *ngIf="!loading3">
+                                <input class="btn btn-primary" type="submit" value="Guardar usuario" style="width: 170px;height: 45px;border-radius: 2px;">
+                            </div>
+
+
+                            <div align="center" *ngIf="loading3">
+
+                                <div class="stext-center bg-primary" style="width: 170px;height: 45px;border-radius: 2px;">
+                                    <div class="dot-opacity-loader">
+                                        <span style="height: 10px;width: 10px;background-color: white;margin-top: 17px;"></span>
+                                        <span style="height: 10px;width: 10px;background-color: white;margin-top: 17px;"></span>
+                                        <span style="height: 10px;width: 10px;background-color: white;margin-top: 17px;"></span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+
+                        </form>
+                    </div>
+                    <div class="tab-pane" id="tab_1_2">
+
+                        <form ngNativeValidate #f2="ngForm" style="padding: 5px;" (ngSubmit)="changePassword(f2)">
+                            <div>
+
+
+
+
+                                <div class="form-group row">
+
+                                    <div class="col-md-6">
+                                        <label>Nueva contraseña:</label>
+
+                                        <div style="display: flex;">
+                                            <input [(ngModel)]="selectedUser.password" name="password" type="text" required class="form-control">
+                                            <i class="fa fa-asterisk ml-2 mt-3" title="La contraseña nueva es obligatoria" style="color: #FF4747;vertical-align: middle;font-size: 12px;margin-top: 10px;margin-left: 5px;"></i>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label>Nueva contraseña:</label>
+
+                                        <div style="display: flex;">
+                                            <input [(ngModel)]="selectedUser.repassword" name="repassword" type="text" required class="form-control">
+                                            <i class="fa fa-asterisk ml-2 mt-3" title="La contraseña nueva es obligatoria" style="color: #FF4747;vertical-align: middle;font-size: 12px;margin-top: 10px;margin-left: 5px;"></i>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+                            <br>
+                            <hr>
+
+                            <div align="center" *ngIf="!loading3">
+                                <input class="btn btn-primary" type="submit" value="Cambiar contraseña" style="width: 170px;height: 45px;border-radius: 2px;">
+                            </div>
+
+
+                            <div align="center" *ngIf="loading3">
+
+                                <div class="stext-center bg-primary" style="width: 170px;height: 45px;border-radius: 2px;">
+                                    <div class="dot-opacity-loader">
+                                        <span style="height: 10px;width: 10px;background-color: white;margin-top: 17px;"></span>
+                                        <span style="height: 10px;width: 10px;background-color: white;margin-top: 17px;"></span>
+                                        <span style="height: 10px;width: 10px;background-color: white;margin-top: 17px;"></span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+
+                        </form>
+
+                    </div>
+                </div>
+                <!--END TABS-->
+            </div>
+        </div>
+
+
+
+    </div>
+</div>

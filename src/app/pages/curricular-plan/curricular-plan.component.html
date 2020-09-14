@@ -1,0 +1,252 @@
+<div class="row">
+    <div class="col-md-4">
+
+        <div *ngIf="loading" class="portlet light" style="border: 1px solid #E1E1E1;">
+            <div class="portlet-body">
+                <app-loading-spinner class="text-center"> </app-loading-spinner>
+            </div>
+        </div>
+
+        <div *ngIf="!loading" class="portlet light" style="border: 1px solid #E1E1E1;">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <i class="icon-bar-chart theme-font-color hide"></i>
+                    <span class="caption-subject theme-font-color bold uppercase">BUSCAR PLAN CURRICULAR</span>
+
+                </div>
+
+                <div class="tools">
+                    <button type="button" style="padding: 0px 0px 1px 1px;height: 28px;width: 28px;margin-left: 7px;margin-top: -10px;" (click)="insertCurricularPlan()" class="btn btn-circle green" title="Agregar un nuevo plan curricular"> <i class="fa fa-plus" aria-hidden="true"></i></button>
+
+
+                </div>
+
+            </div>
+            <div class="portlet-body page-quick-sidebar-chat-curricularPlans">
+
+
+                <div class="">
+                    <div class="input-icon right">
+                        <i class="icon-magnifier" (click)="searchCurricularPlans(input.value)"></i>
+                        <input type="text" class="form-control" #input aria-describedby="search" (keydown)="onKeydown($event, input.value)" aria-label="search" [(ngModel)]="search" name="search" class="form-control" id="navbar-search-input" placeholder="Buscar..." type="text">
+                    </div>
+
+
+                </div>
+
+                <p style="margin-top: 10px;margin-bottom: 10px;opacity: 0.6;">{{results}}</p>
+
+
+                <div class="table-scrollable-borderless">
+
+
+                    <div *ngFor="let curricularPlan of curricularPlans; let i = index" (click)="onRowClick(i, curricularPlan)" style="cursor: pointer;height: 80px;border-radius: 5px;margin-top:7px;border: 1px solid #E1E1E1;background-color: transparent;padding-left: 10px;padding-right: 10px;padding-top: 10px;"
+                        [ngClass]="{'superactive': i == selectedRow}">
+                        <div class="ellipsis_cell" style="vertical-align: middle;padding-bottom: 0px;">
+
+
+                            <div style="margin-right: 40px;">
+                                <span title="{{curricularPlan.name}}" style="font-weight:550;font-size:14px;color:#597a96;margin-top: 3px;">
+                                        {{curricularPlan.name}}
+                                      </span>
+
+
+                            </div>
+
+                            <div style="margin-right: 40px;">
+                                <span style="font-size:13px;font-weight:400;color:#aab8c2;margin-top: 1px;">
+                                    Duración: {{curricularPlan.duration}}
+                                           </span>
+                            </div>
+
+                        </div>
+                        <div style="float:right;">
+                            <div class="float-right" style="margin-top: -35px;">
+
+                                <button type="button" *ngIf="!curricularPlan.unsubscribe" class="btn btn-circle red" style="padding: 0px 0px 1px 1px;height: 27px;width: 27px;margin-left: 3px;margin-top: 5px;" data-toggle="modal" data-target="#exampleModalCenter" (click)="deleteCurricularPlan(curricularPlan,true)"
+                                    title="Dar de baja al rol: {{curricularPlan.name}} "><i class="fa fa-trash"></i></button>
+                                <button type="button" *ngIf="curricularPlan.unsubscribe" class="btn btn-circle green" style="padding: 0px 0px 1px 1px;height: 27px;width: 27px;margin-left: 3px;margin-top: 5px;" data-toggle="modal" data-target="#exampleModalCenter" data-placement="top"
+                                    (click)="deleteCurricularPlan(curricularPlan,false)" title="Activar al rol: {{curricularPlan.name}} "><i class="fa fa-check"></i></button>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <ng-container *ngIf="curricularPlans">
+                        <div *ngIf="curricularPlans.length === 0" style="height: 50px;border-radius: 5px;margin-top:7px;border: 1px solid #E1E1E1;background-color: transparent;padding-left: 10px;padding-right: 10px;padding-top: 10px;">
+
+                            <div class="text-center" style="margin-top: 3px;">
+                                <span style="font-size:14px;font-weight:400;opacity: 0.6;"> No se encontraron registros</span>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                </div>
+
+                <br>
+
+                <ul class="list-inline text-center">
+                    <li>
+                        <button type="button" class="btn btn-circle blue " (click)="changePage(-pageSize)" style="padding: 0px 0px 1px 1px;height: 27px;width: 27px;margin-left: 3px;margin-top: 0px;" data-toggle="tooltip" data-placement="top"><i class="fa fa-chevron-left"></i></button>
+
+                    </li>
+                    <li>
+                        <p class="text-muted mt-1 ml-2 mr-2">Pag. {{page}} de {{totalPages}} </p>
+
+                    </li>
+                    <li>
+                        <button type="button" class="btn btn-circle blue " (click)="changePage(pageSize)" style="padding: 0px 0px 1px 1px;height: 27px;width: 27px;margin-left: 3px;margin-top: 0px;" data-toggle="tooltip" data-placement="top"><i class="fa fa-chevron-right"></i></button>
+
+
+                    </li>
+                </ul>
+
+
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-8">
+
+        <div *ngIf="loading2" class="portlet light" style="border: 1px solid #E1E1E1;margin-left: -10px;">
+            <div class="portlet-body">
+                <app-loading-spinner class="text-center"> </app-loading-spinner>
+            </div>
+        </div>
+
+        <div *ngIf="!loading2" class="portlet light" style="border: 1px solid #E1E1E1;margin-left: -10px;">
+            <div class="portlet-title tabbable-line">
+                <div class="caption caption-md">
+                    <i class="icon-globe theme-font-color hide"></i>
+                    <span class="caption-subject theme-font-color bold uppercase">{{selectedCurricularPlan.name}}</span>
+                </div>
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#tab_1_1" data-toggle="tab" aria-expanded="true">
+                    DATOS </a>
+                    </li>
+                    <li class="">
+                        <a href="#tab_1_2" data-toggle="tab" aria-expanded="false">
+                    CURSOS 
+                  </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="portlet-body">
+                <!--BEGIN TABS-->
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_1_1">
+                        <form ngNativeValidate #f="ngForm" style="padding: 5px;" (ngSubmit)="saveCurricularPlan(f)">
+
+                            <div class="form-group row">
+
+
+                                <div class="col-md-12">
+                                    <label>Nombre del plan:</label>
+                                    <div style="display: flex;">
+                                        <input [(ngModel)]="selectedCurricularPlan.name" maxlength="100" name="name" required type="text" class="form-control">
+                                        <i class="fa fa-asterisk ml-2 mt-3" title="El nombre del plan es obligatorio" style="color: #FF4747;vertical-align: middle;font-size: 12px;margin-top: 10px;margin-left: 5px;"></i>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="form-group row">
+                                <div class="col-md-4">
+                                    <label>Fecha:</label>
+                                    <input [(ngModel)]="selectedCurricularPlan.creationDateShow" name="creationDateShow" type="date" class="form-control">
+
+
+                                </div>
+
+
+                                <div class="col-md-4">
+                                    <label>F. expiración:</label>
+
+                                    <input [(ngModel)]="selectedCurricularPlan.expiryDateShow" name="expiryDate" type="date" class="form-control">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>Duración:</label>
+                                    <input [(ngModel)]="selectedCurricularPlan.duration" name="duration" maxlength="50" type="text" class="form-control">
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <label>Observación:</label>
+                                    <textarea style="height: 100px;" maxlength="250" [(ngModel)]="selectedCurricularPlan.observation" name="observation" type="text" class="form-control">
+                                                        </textarea>
+                                </div>
+
+                            </div>
+
+                            <br>
+
+                            <div align="center" *ngIf="!loading3">
+                                <input class="btn btn-primary" type="submit" value="Guardar plan" style="width: 130px;height: 45px;border-radius: 2px;">
+                            </div>
+
+
+                            <div align="center" *ngIf="loading3">
+
+                                <div class="text-center bg-primary" style="width: 130px;height: 45px;border-radius: 2px;padding-top: 15px;">
+                                    <app-loading-spinner2 class="text-center" style="margin-top: 25px;"> </app-loading-spinner2>
+                                </div>
+
+                            </div>
+
+
+
+
+
+                        </form>
+                    </div>
+                    <div class="tab-pane" id="tab_1_2">
+
+                        <ng-container *ngIf="selectedCurricularPlan.courses">
+
+
+                            <div *ngIf="selectedCurricularPlan.courses.length === 0" style="height: 50px;border-radius: 5px;margin-top:7px;border: 1px solid #E1E1E1;background-color: transparent;padding-left: 10px;padding-right: 10px;padding-top: 10px;">
+
+                                <div class="text-center" style="margin-top: 3px;">
+                                    <span style="font-size:14px;font-weight:400;"> No se encontraron cursos para este plan</span>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <div *ngFor="let course of selectedCurricularPlan.courses; let i = index" (click)="onRowCourseClick(i,course)" [ngClass]="{'superactive': i == selectedCourseRow}" style="cursor: pointer;height: 50px;border-radius: 5px;margin-top:7px;border: 1px solid #E1E1E1;background-color: transparent;padding-left: 10px;padding-right: 10px;padding-top: 10px;">
+
+
+                            <div style="margin-right: 0px;">
+                                <span title="{{course.name}}" style="font-weight:450;font-size:14px;color:#597a96;margin-top: 3px;">
+                                               {{course.name}}
+                                            </span>
+
+                            </div>
+
+
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <!--END TABS-->
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
