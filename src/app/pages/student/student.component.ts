@@ -182,6 +182,18 @@ export class StudentComponent implements OnInit {
       return;
     }
 
+    if (!this.selectedStudent.ruc) {
+      swal('Validación', 'El RUC es obligatorio', 'error');
+      this.loading3 = false;
+      return;
+    }
+
+    if (!this.selectedStudent.document) {
+      swal('Validación', 'El DNI es obligatorio', 'error');
+      this.loading3 = false;
+      return;
+    }
+
     if ( f.invalid ) {
       swal('Validación', 'Debe llenar todos los datos requeridos', 'error');
       this.loading3 = false;

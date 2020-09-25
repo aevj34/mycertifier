@@ -13,7 +13,12 @@ export class Enrollment {
         public studentSecondLastName?: string,
         public studentEmail?: string,
         public studentPhone?: string,
+        public studentDocument?: string,
+        public studentRuc?: string,
         public enrollmentDetails?: EnrollmentDetail[],
+        public subTotal?: number,
+        public totalIgv?: number,
+        public total?: number,
         public _id?: string,
         public unsubscribe?: boolean,
     ) { }

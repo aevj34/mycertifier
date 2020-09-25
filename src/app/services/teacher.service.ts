@@ -85,7 +85,7 @@ export class TeacherService {
 
 
   getAllCombo() {
-    const url = URL_SERVICES + '/teacher/getAllByCombo';
+    const url = URL_SERVICES + '/teacher/combo';
     return this.http.get(url);
   }
 

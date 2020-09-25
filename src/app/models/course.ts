@@ -20,6 +20,7 @@ export class Course {
         public credits?: number,
         public sumilla?: string,
         public destinedTo?: string,
+        public number?: number,
         public entryRequirements?: string,
         public generalObjectives?: string,
         public contents?: string,

@@ -8,6 +8,7 @@ import { URL_SERVICES } from '../config/config';
 import { Enrollment } from '../models/enrollment';
 import { Student } from '../models/student';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -34,14 +35,19 @@ export class EnrollmentService {
   insert( enrollment: Enrollment, student: Student ) {
 
     const url = URL_SERVICES + '/enrollment' ;
+   
+    console.log(enrollment);
 
     return this.http.post( url, enrollment )
       .pipe(map((resp: any) => {
-        swal('Alumno matriculdo', 'El alumno ' +student.name + ' ' + student.lastName + ' se matriculó en el curso', 'success');
+
+        swal('Alumno matriculado', 'El alumno ' +student.name + ' ' + student.lastName + ' se matriculó en el curso', 'success');
         return resp.enrollment;
+
       }
       ))
       .pipe(catchError( (error) => {
+        console.log(error);
        return throwError(error);
    }));
   }

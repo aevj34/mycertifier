@@ -1,1 +1,381 @@
-<p>dashboard works!</p>
+<div class="row margin-top-10">
+
+    <div *ngIf="loading" class="portlet light" style="border: 1px solid #E1E1E1;">
+        <div class="portlet-body">
+            <app-loading-spinner class="text-center"> </app-loading-spinner>
+        </div>
+    </div>
+
+    <ng-container *ngIf="!loading">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="dashboard-stat2">
+                <div class="display">
+                    <div class="number">
+                        <h3 class="font-green-sharp">{{dashboard.students}}<small class="font-green-sharp"></small></h3>
+                        <small>TOTAL</small>
+                    </div>
+                    <div class="icon">
+                        <i class="icon-user-follow"></i>
+                    </div>
+                </div>
+                <div class="progress-info">
+                    <div class="progress">
+                        <span style="width: 100%;" class="progress-bar progress-bar-success green-sharp">
+                 
+                        </span>
+                    </div>
+                    <div class="status">
+                        <div class="status-title">
+                            ALUMNOS REGISTRADOS
+                        </div>
+                        <div class="status-number">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="dashboard-stat2">
+                <div class="display">
+                    <div class="number">
+                        <h3 class="font-red-haze">{{dashboard.courses}}</h3>
+                        <small>TOTAL</small>
+                    </div>
+                    <div class="icon">
+                        <i class="icon-folder"></i>
+                    </div>
+                </div>
+                <div class="progress-info">
+                    <div class="progress">
+                        <span style="width: 100%;" class="progress-bar progress-bar-success red-haze">
+                    <span class="sr-only"></span>
+                        </span>
+                    </div>
+                    <div class="status">
+                        <div class="status-title">
+                            CURSOS REGISTRADOS
+                        </div>
+                        <div class="status-number">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="dashboard-stat2">
+                <div class="display">
+                    <div class="number">
+                        <h3 class="font-blue-sharp">{{dashboard.teachers}}</h3>
+                        <small>TOTAL</small>
+                    </div>
+                    <div class="icon">
+                        <i class="icon-user-female"></i>
+                    </div>
+                </div>
+                <div class="progress-info">
+                    <div class="progress">
+                        <span style="width: 100%;" class="progress-bar progress-bar-success blue-sharp">
+                    <span class="sr-only"></span>
+                        </span>
+                    </div>
+                    <div class="status">
+                        <div class="status-title">
+                            DOCENTES REGISTRADOS
+                        </div>
+                        <div class="status-number">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="dashboard-stat2">
+                <div class="display">
+                    <div class="number">
+                        <h3 class="font-purple-soft">{{dashboard.users}}</h3>
+                        <small>TOTAL</small>
+                    </div>
+                    <div class="icon">
+                        <i class="icon-user"></i>
+                    </div>
+                </div>
+                <div class="progress-info">
+                    <div class="progress">
+                        <span style="width: 100%;" class="progress-bar progress-bar-success purple-soft">
+                    <span class="sr-only"></span>
+                        </span>
+                    </div>
+                    <div class="status">
+                        <div class="status-title">
+                            USUSARIOS REGISTRADOS
+                        </div>
+                        <div class="status-number">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+
+</div>
+
+<div class="row">
+    <div class="col-md-6 col-sm-12">
+
+        <div *ngIf="loading1" class="portlet light" style="border: 1px solid #E1E1E1;">
+            <div class="portlet-body">
+                <app-loading-spinner class="text-center"> </app-loading-spinner>
+            </div>
+        </div>
+        <!-- BEGIN PORTLET-->
+        <div *ngIf="!loading1" class="portlet light ">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <i class="icon-bar-chart theme-font-color hide"></i>
+                    <span class="caption-subject theme-font-color bold uppercase">ALUMNOS RECIENTES</span>
+                    <span class="caption-helper" style="margin-left: 5px;">Últimos 5 alumnos registrados...</span>
+                </div>
+                <div class="actions">
+
+                </div>
+            </div>
+            <div class="portlet-body">
+
+                <div class="table-scrollable table-scrollable-borderless">
+                    <table class="table table-hover table-light">
+                        <thead>
+                            <tr class="uppercase">
+                                <th colspan="2">
+                                    ALUMNO
+                                </th>
+                                <th>
+                                    DNI
+                                </th>
+                                <th>
+                                    CORREO
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let student of students">
+                                <td class="fit">
+                                    <img class="user-pic" [src]="student.img | image:'students'">
+                                </td>
+                                <td>
+                                    <span class="primary-link ">{{student.name}} {{student.lastName}}</span>
+                                </td>
+                                <td>
+                                    {{student.document}}
+                                </td>
+                                <td>
+
+                                    {{student.email}}
+                                </td>
+
+                            </tr>
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END PORTLET-->
+    </div>
+    <div class="col-md-6 col-sm-12">
+
+        <div *ngIf="loading2" class="portlet light" style="border: 1px solid #E1E1E1;">
+            <div class="portlet-body">
+                <app-loading-spinner class="text-center"> </app-loading-spinner>
+            </div>
+        </div>
+        <!-- BEGIN PORTLET-->
+        <div *ngIf="!loading2" class="portlet light ">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <i class="icon-bar-chart theme-font-color hide"></i>
+                    <span class="caption-subject theme-font-color bold uppercase">CURSOS RECIENTES</span>
+                    <span class="caption-helper" style="margin-left: 8px;">últimos 5 cursos registrados...</span>
+                </div>
+                <div class="actions">
+
+                </div>
+            </div>
+            <div class="portlet-body">
+
+                <div class="table-scrollable table-scrollable-borderless">
+                    <table class="table table-hover table-light">
+                        <thead>
+                            <tr class="uppercase">
+                                <th colspan="2">
+                                    CURSO
+                                </th>
+                                <th>
+                                    TIPO
+                                </th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let course of courses">
+                                <td class="fit">
+
+                                </td>
+                                <td>
+                                    <span class="primary-link ">{{course.name}} </span>
+                                </td>
+                                <td>
+                                    {{course.courseTypeName}}
+                                </td>
+
+
+                            </tr>
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END PORTLET-->
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 col-sm-12">
+        <div *ngIf="loading3" class="portlet light" style="border: 1px solid #E1E1E1;">
+            <div class="portlet-body">
+                <app-loading-spinner class="text-center"> </app-loading-spinner>
+            </div>
+        </div>
+        <!-- BEGIN PORTLET-->
+        <div *ngIf="!loading3" class="portlet light ">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <i class="icon-bar-chart theme-font-color hide"></i>
+                    <span class="caption-subject theme-font-color bold uppercase">DOCENTES RECIENTES</span>
+                    <span class="caption-helper" style="margin-left: 5px;"> últimos 5 docentes registrados...</span>
+                </div>
+                <div class="actions">
+
+                </div>
+            </div>
+            <div class="portlet-body">
+
+                <div class="table-scrollable table-scrollable-borderless">
+                    <table class="table table-hover table-light">
+                        <thead>
+                            <tr class="uppercase">
+                                <th colspan="2">
+                                    DOCENTE
+                                </th>
+                                <th>
+                                    DNI
+                                </th>
+                                <th>
+                                    CORREO
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let teacher of teachers">
+                                <td class="fit">
+                                    <img class="user-pic" [src]="teacher.img | image:'teachers'">
+                                </td>
+                                <td>
+                                    <span class="primary-link ">{{teacher.name}} {{teacher.lastName}}</span>
+                                </td>
+                                <td>
+                                    {{teacher.document}}
+                                </td>
+                                <td>
+
+                                    {{teacher.email}}
+                                </td>
+
+                            </tr>
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END PORTLET-->
+    </div>
+    <div class="col-md-6 col-sm-12">
+        <div *ngIf="loading4" class="portlet light" style="border: 1px solid #E1E1E1;">
+            <div class="portlet-body">
+                <app-loading-spinner class="text-center"> </app-loading-spinner>
+            </div>
+        </div>
+        <!-- BEGIN PORTLET-->
+        <div *ngIf="!loading4" class="portlet light ">
+            <div class="portlet-title">
+                <div class="caption caption-md">
+                    <i class="icon-bar-chart theme-font-color hide"></i>
+                    <span class="caption-subject theme-font-color bold uppercase">USUARIOS RECIENTES</span>
+                    <span class="caption-helper" style="margin-left: 8px;">últimos 5 usuarios registrados...</span>
+                </div>
+                <div class="actions">
+
+                </div>
+            </div>
+            <div class="portlet-body">
+
+                <div class="table-scrollable table-scrollable-borderless">
+                    <table class="table table-hover table-light">
+                        <thead>
+                            <tr class="uppercase">
+                                <th colspan="2">
+                                    USUARIO
+                                </th>
+                                <th>
+                                    DNI
+                                </th>
+                                <th>
+                                    CORREO
+                                </th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let user of users">
+                                <td class="fit">
+                                    <img class="user-pic" [src]="user.img | image:'users'">
+                                </td>
+                                <td>
+                                    <span class="primary-link ">{{user.name}} {{user.lastName}}</span>
+                                </td>
+                                <td>
+                                    {{user.document}}
+                                </td>
+                                <td>
+
+                                    {{user.email}}
+                                </td>
+
+                            </tr>
+
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- END PORTLET-->
+    </div>
+</div>

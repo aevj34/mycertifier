@@ -115,4 +115,22 @@ export class ProgrammingService {
     return this.http.get(url);
   }
 
+
+    
+  public downloadPDF(programmming: Programming): any {
+
+    const url = URL_SERVICES + '/programming/enrollments-course';
+   
+    return this.http.post(url, programmming, { responseType: 'blob' })
+    .pipe(map((resp: any) => {
+      return resp;
+    }
+    ))
+    .pipe(catchError( (error) => {
+      ErrorManager.handleError(error,'No se pudo crear');
+     return throwError(error);
+ }));
+}
+
+
 }

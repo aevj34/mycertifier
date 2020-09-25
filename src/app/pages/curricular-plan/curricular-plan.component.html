@@ -216,29 +216,102 @@
                         <ng-container *ngIf="selectedCurricularPlan.courses">
 
 
+                            <div class="invoice">
+
+                                <div class="text-center">
+                                    <h3 class="text-center" style="font-weight: bold;"> {{selectedCurricularPlan.name.toString().toUpperCase()}}</h3>
+                                    <ul class="list-unstyled">
+                                        <li>
+                                            {{selectedCurricularPlan.creationDateShow}} - {{selectedCurricularPlan.expiryDateShow}}
+                                        </li>
+
+                                    </ul>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <table class="table table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>
+                                                        #
+                                                    </th>
+                                                    <th>
+                                                        CURSO
+                                                    </th>
+                                                    <th class="hidden-480">
+                                                        TIPO
+                                                    </th>
+                                                    <th class="hidden-480">
+                                                        NIVEL
+                                                    </th>
+                                                    <th class="hidden-480">
+                                                        H.T.
+                                                    </th>
+                                                    <th>
+                                                        H.P.
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let course of selectedCurricularPlan.courses">
+                                                    <td>
+                                                        {{course.number}}
+                                                    </td>
+                                                    <td>
+                                                        {{course.name}}
+                                                    </td>
+                                                    <td class="hidden-480">
+                                                        {{course.courseTypeName}}
+                                                    </td>
+                                                    <td class="hidden-480">
+                                                        {{course.courseGroupName}}
+                                                    </td>
+                                                    <td class="hidden-480">
+                                                        {{course.theoreticalHours}}
+                                                    </td>
+                                                    <td>
+                                                        {{course.practicalHours}}
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <hr>
+                                <div class="row text-center">
+
+                                    <div align="center" *ngIf="!loading7">
+                                        <input class="btn btn-primary" type="button" value="Descargar Reporte" (click)="downloadPDF()" style="width: 160px;height: 45px;border-radius: 2px;">
+                                    </div>
+
+
+                                    <div align="center" *ngIf="loading7">
+
+                                        <div class="text-center bg-primary" style="width: 160px;height: 45px;border-radius: 2px;padding-top: 15px;">
+                                            <app-loading-spinner2 class="text-center" style="margin-top: 25px;"> </app-loading-spinner2>
+                                        </div>
+
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+
                             <div *ngIf="selectedCurricularPlan.courses.length === 0" style="height: 50px;border-radius: 5px;margin-top:7px;border: 1px solid #E1E1E1;background-color: transparent;padding-left: 10px;padding-right: 10px;padding-top: 10px;">
 
                                 <div class="text-center" style="margin-top: 3px;">
                                     <span style="font-size:14px;font-weight:400;"> No se encontraron cursos para este plan</span>
                                 </div>
                             </div>
+
                         </ng-container>
 
-                        <div *ngFor="let course of selectedCurricularPlan.courses; let i = index" (click)="onRowCourseClick(i,course)" [ngClass]="{'superactive': i == selectedCourseRow}" style="cursor: pointer;height: 50px;border-radius: 5px;margin-top:7px;border: 1px solid #E1E1E1;background-color: transparent;padding-left: 10px;padding-right: 10px;padding-top: 10px;">
 
-
-                            <div style="margin-right: 0px;">
-                                <span title="{{course.name}}" style="font-weight:450;font-size:14px;color:#597a96;margin-top: 3px;">
-                                               {{course.name}}
-                                            </span>
-
-                            </div>
-
-
-
-
-
-                        </div>
 
                     </div>
                 </div>

@@ -100,5 +100,9 @@ export class UserService {
 
   }
 
+  dashboard() {
+    const url = URL_SERVICES + '/user/dashboard' ;
+    return this.http.get(url);
+  }
 
 }

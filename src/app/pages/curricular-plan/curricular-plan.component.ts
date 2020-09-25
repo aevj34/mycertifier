@@ -7,11 +7,11 @@ import { NgForm } from '@angular/forms';
 import { Course } from 'src/app/models/course';
 import { CourseGroupService } from '../../services/course-group.service';
 declare var swal: any;
-
 import { CourseTypeService } from 'src/app/services/course-type.service';
 import { CurricularPlan } from 'src/app/models/curricular-plan';
-import { CourseGroup } from 'src/app/models/course-group';
-import { CourseType } from 'src/app/models/course-type';
+import { CourseService } from 'src/app/services/course.service';
+import { saveAs } from 'file-saver';
+import { ErrorManager } from 'src/app/errors/error-manager';
 
 
 @Component({
@@ -68,21 +68,59 @@ export class CurricularPlanComponent implements OnInit {
 
 
   courseTab: string = ' - ';
+  datestring: string;
 
   constructor(public curricularPlanService: CurricularPlanService,
               public courseTypeService: CourseTypeService,
               public courseGroupService: CourseGroupService,
+              public courseService: CourseService,
               public router: Router,
               private route: ActivatedRoute) { }
 
   ngOnInit() {
+
+    var d = new Date();
+    this.datestring = d.getDate().toString() + ' ' + this.getShortName(d.getMonth() + 1) + '. del ' + d.getFullYear();
+    
+
      this.selectedCurricularPlan = new CurricularPlan()
      this.getAllCurricularPlans(true);
 
   }
 
 
+  getShortName(strMonth) {
 
+    let strShortName = "";
+  
+    if (strMonth == "1")
+        strShortName = "ene";
+    else if (strMonth == "2")
+        strShortName = "feb";
+    else if (strMonth == "3")
+        strShortName = "mar";
+    else if (strMonth == "4")
+        strShortName = "abr";
+    else if (strMonth == "5")
+        strShortName = "may";
+    else if (strMonth == "6")
+        strShortName = "jun";
+    else if (strMonth == "7")
+        strShortName = "jul";
+    else if (strMonth == "8")
+        strShortName = "ago";
+    else if (strMonth == "9")
+        strShortName = "set";
+    else if (strMonth == "10")
+        strShortName = "oct";
+    else if (strMonth == "11")
+        strShortName = "nov";
+    else if (strMonth == "12")
+        strShortName = "dic";
+  
+    return strShortName;
+  }
+  
 
 onKeydown(event, termino: string) {
 
@@ -152,6 +190,12 @@ onKeydown(event, termino: string) {
       this.selectedCurricularPlan = res.curricularPlan;
       this.mode = 2;
       this.loading2 = false;
+
+      let i = 0;
+      this.selectedCurricularPlan.courses.forEach( course => {
+        course.number = i+1;
+        i++;
+      })
 
 
       if (tab === 1){
@@ -294,6 +338,28 @@ onKeydown(event, termino: string) {
 
 
 
+
+  public downloadPDF(): any {
+
+    this.loading7 = true;
+
+
+    var fileName = this.selectedCurricularPlan.name + '.pdf';
+    var mediaType = 'application/pdf';
+
+    this.courseService.downloadPDF(this.selectedCurricularPlan)
+      .subscribe( res => {
+        this.loading7 = false;
+
+        var blob = new Blob([res], { type: mediaType });
+        saveAs(blob, fileName);
+
+      },  error => {
+        this.loading7 = false;
+        ErrorManager.handleError(error,'No se pudo actualizar');
+      });
+
+}
 
 
 

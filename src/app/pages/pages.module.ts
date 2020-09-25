@@ -24,6 +24,8 @@ import { PipesModule } from '../pipes/pipes.module';
 import { UserInfoComponent } from './user-info/user-info.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { LoadingSpinner2Component } from './loading-spinner2/loading-spinner2.component';
+import { EnrollmentsCourseComponent } from './enrollments-course/enrollments-course.component';
+import { InvoicesComponent } from './invoices/invoices.component';
 
 
 @NgModule({
@@ -43,7 +45,9 @@ import { LoadingSpinner2Component } from './loading-spinner2/loading-spinner2.co
     InscriptionComponent,
     UserInfoComponent,
     LoadingSpinnerComponent,
-    LoadingSpinner2Component
+    LoadingSpinner2Component,
+    EnrollmentsCourseComponent,
+    InvoicesComponent
   ],
   exports: [
     DashboardComponent,

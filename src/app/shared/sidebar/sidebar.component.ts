@@ -13,6 +13,8 @@ export class SidebarComponent implements OnInit {
   li4: string;
   li5: string;
 
+  li11: string;
+
   li21: string;
   li22: string;
   li23: string;
@@ -25,6 +27,8 @@ export class SidebarComponent implements OnInit {
   li41: string;
   li42: string;
   li43: string;
+  li44: string;
+  li45: string;
 
   li51: string;
 
@@ -44,6 +48,8 @@ export class SidebarComponent implements OnInit {
 
   clearAllSubMenu(){
 
+    this.li11 = '';
+    
     this.li21 = '';
     this.li22 = '';
     this.li23 = '';
@@ -56,9 +62,16 @@ export class SidebarComponent implements OnInit {
     this.li41 = '';
     this.li42 = '';
     this.li43 = '';
-
+    this.li44 = '';
+    this.li45 = '';
   }
 
+  activeL11(){
+    this.clearAllSubMenu();
+    this.li11 = 'active';
+    this.clearAllMenu();
+    this.li1 = 'active';
+  }
 
   activeL21(){
     this.clearAllSubMenu();
@@ -131,6 +144,19 @@ export class SidebarComponent implements OnInit {
     this.li4 = 'active';
   }
 
+  activeL44(){
+    this.clearAllSubMenu();
+    this.li44 = 'active';
+    this.clearAllMenu();
+    this.li4 = 'active';
+  }
+
+  activeL45(){
+    this.clearAllSubMenu();
+    this.li3 = 'active';
+    this.clearAllMenu();
+    this.li4 = 'active';
+  }
 
   activeL51(){
     this.clearAllSubMenu();

@@ -10,14 +10,17 @@ import { EnrollmentDetailService } from '../../services/enrollment-detail.servic
 import { EnrollmentDetail } from '../../models/enrollment-detail';
 import { ProgrammingService } from '../../services/programming.service';
 import { Programming } from 'src/app/models/programmings';
+import { COMPANY_ADDRESS, COMPANY_NAME } from '../../config/config';
 declare var swal: any;
 
+
 @Component({
-  selector: 'app-enrollment',
-  templateUrl: './enrollment.component.html',
+  selector: 'app-invoices',
+  templateUrl: './invoices.component.html',
   styles: []
 })
-export class EnrollmentComponent implements OnInit {
+export class InvoicesComponent implements OnInit {
+
 
   @ViewChild('btnCloseModal', { static: false }) btnCloseModal: ElementRef;
   
@@ -36,6 +39,8 @@ export class EnrollmentComponent implements OnInit {
 
   search: string;
   results: string;
+
+  companyName = COMPANY_NAME;
 
   students: Student[] = [];
   programmings: Programming[] = [];
@@ -144,9 +149,21 @@ export class EnrollmentComponent implements OnInit {
       this.selectedEnrollment = res.enrollment;
 
       if (this.selectedEnrollment.studentImg == '')
-      this.selectedEnrollment.studentImg = 'xx';   
-
+      this.selectedEnrollment.studentImg = 'xx'; 
       
+      let i = 0 ;
+      let total = 0;
+      this.selectedEnrollment.enrollmentDetails.forEach(detail => {
+        detail.number = i + 1;
+        total = total + detail.price;
+        i++;
+      });
+      
+      this.selectedEnrollment.subTotal= total;
+      this.selectedEnrollment.totalIgv= 0;
+      this.selectedEnrollment.total= total;
+
+     
       this.mode = 2;
       this.loading4 = false;
     },  error => {
@@ -401,6 +418,26 @@ deleteEnrollmentDetail(enrollmentDetail: EnrollmentDetail, unsubscribe: boolean)
                  .subscribe( borrado => {
                      this.obtainEnrollment(this.selectedEnrollment._id);
                  });
+     }
+
+   });
+
+}
+
+sendSunat(){
+
+  swal( {
+    title: '¿Esta seguro?',
+    text: 'Realmente desea enviar la factura a SUNAT',
+    icon: 'warning',
+    buttons: true,
+    dangerMode: true,
+  })
+   .then( borrar => {
+     if (borrar) {
+
+       swal('Factura enviada', 'Su factura fue enviada a SUNAT satisfactoriamente', 'success');
+
      }
 
    });

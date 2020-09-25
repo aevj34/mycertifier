@@ -7,6 +7,7 @@ import { throwError } from 'rxjs/internal/observable/throwError';
 import Swal from 'sweetalert2'
 import { ErrorManager } from '../errors/error-manager';
 import { Course } from '../models/course';
+import { CurricularPlan } from '../models/curricular-plan';
 
 
 @Injectable({
@@ -106,5 +107,20 @@ export class CourseService {
     return this.http.get(url);
   }
 
+  
+  public downloadPDF(curricularPlan: CurricularPlan): any {
+
+    const url = URL_SERVICES + '/course/curricularPlan';
+   
+    return this.http.post(url, curricularPlan, { responseType: 'blob' })
+    .pipe(map((resp: any) => {
+      return resp;
+    }
+    ))
+    .pipe(catchError( (error) => {
+      ErrorManager.handleError(error,'No se pudo crear');
+     return throwError(error);
+ }));
+}
 
 }

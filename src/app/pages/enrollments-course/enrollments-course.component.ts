@@ -13,14 +13,15 @@ import { EnrollmentDetailService } from '../../services/enrollment-detail.servic
 import { Student } from 'src/app/models/student';
 import { StudentService } from '../../services/student.service';
 import { EnrollmentService } from 'src/app/services/enrollment.service';
-import { Enrollment } from 'src/app/models/enrollment';
+import { saveAs } from 'file-saver';
+import { ErrorManager } from 'src/app/errors/error-manager';
 
 @Component({
-  selector: 'app-inscription',
-  templateUrl: './inscription.component.html',
+  selector: 'app-enrollments-course',
+  templateUrl: './enrollments-course.component.html',
   styles: []
 })
-export class InscriptionComponent implements OnInit {
+export class EnrollmentsCourseComponent implements OnInit {
 
 
   programmings: Programming[] = [];
@@ -41,6 +42,7 @@ export class InscriptionComponent implements OnInit {
   loading3 = false;
   loading4 = true;
   loading5 = true;
+  loading7 = false;
 
   search: string;
   results: string;
@@ -98,9 +100,13 @@ export class InscriptionComponent implements OnInit {
     .subscribe((res: any) => {
       this.enrolledStudents = res.programming.students;
 
+      let i = 0;
       this.enrolledStudents.forEach( student=> {
         if (student.studentImg == '')
         student.studentImg = 'xx';  
+
+        student.number = i+1;
+        i++;
       });
 
       this.loading5 = false;
@@ -113,12 +119,15 @@ export class InscriptionComponent implements OnInit {
     this.programmingService.getAvailables(this.skip, this.pageSize)
     .subscribe((res: any) => {
       this.programmings = res.programmings;
-
+    
       this.programmings.forEach( student=> {
         if (student.teacherImg == '')
-        student.teacherImg = 'xx';  
+        student.teacherImg = 'xx'; 
+        
+       
       });
-    
+
+
       this.total = res.total;
       this.totalPages = res.totalPages;
       this.page = (this.skip / this.pageSize) + 1;
@@ -171,8 +180,6 @@ export class InscriptionComponent implements OnInit {
         if (this.selectedProgramming.teacher.img == '')
         this.selectedProgramming.teacher.img = 'xx';  
     }
-
- 
 
     this.getStudents(this.selectedProgramming._id);
 
@@ -385,88 +392,27 @@ export class InscriptionComponent implements OnInit {
   }
 
 
-  saveEnrollment(student:Student) {
+  public downloadPDF(): any {
 
-    this.loading3 = true;
-    let c = 0;
-    this.enrolledStudents.forEach(detail => {
-        if (student._id.toString() == detail.studentId.toString())
-        c++;
-    });
+    this.loading7 = true;
 
-    if (c>0) {
-      swal('Validación', 'El alumno ya está matriculado en el curso', 'error');
-      this.loading3 = false;
-      this.btnCloseModal.nativeElement.click();
-      return;
-    }
 
-    let enrollment = new Enrollment();
+    var fileName = this.selectedProgramming.courseName + '.pdf';
+    var mediaType = 'application/pdf';
 
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    var yyyy = today.getFullYear();
+    this.programmingService.downloadPDF(this.selectedProgramming)
+      .subscribe( res => {
+        this.loading7 = false;
 
-    var today2 =  yyyy  +  '-'  + mm + '-' +  dd;
-    
-    enrollment.enrollmentDate = today2;
-    enrollment.studentId = student._id;
+        var blob = new Blob([res], { type: mediaType });
+        saveAs(blob, fileName);
 
-    let enrollmentDetails:EnrollmentDetail[] = [];
-
-    let enrollmentDetail = new EnrollmentDetail();
-
-    enrollmentDetail.courseId = this.selectedProgramming.courseId;
-    enrollmentDetail.turnId = this.selectedProgramming.turnId;
-    enrollmentDetail.sectionId = this.selectedProgramming.sectionId;
-    enrollmentDetail.programmingId = this.selectedProgramming._id;
-    enrollmentDetail.turnId = this.selectedProgramming.turnId;
-    enrollmentDetail.sectionId = this.selectedProgramming.sectionId;
-    enrollmentDetail.price = this.selectedProgramming.price;
-
-    enrollmentDetails.push(enrollmentDetail);
-
-    enrollment.enrollmentDetails = enrollmentDetails;
-
-      this.enrollmentService.insert(enrollment, student)
-      .subscribe( enrollment => {
-        this.mode = 2;
-        this.loading3 = false;
-        this.btnCloseModal.nativeElement.click();
-        this.obtainProgramming(this.selectedProgramming._id);
       },  error => {
-        this.loading3 = false;
+        this.loading7 = false;
+        ErrorManager.handleError(error,'No se pudo actualizar');
       });
 
-  }
-
-
-  deleteEnrollment(enrollmentDetailId,unsubscribe: boolean,enrollmentId, student: EnrollmentDetail) {
-
-    let text: string;
-    if (unsubscribe) {
-      text = 'Esta seguro que desea anular la matrícula de ' + student.studentName + ' ' + student.studentLastName;
-    } 
-
-    swal( {
-      title: '¿Esta seguro?',
-      text: text,
-      icon: 'warning',
-      buttons: true,
-      dangerMode: true,
-    })
-     .then( borrar => {
-       if (borrar) {
-         this.enrollmentDetailService.delete(enrollmentDetailId, unsubscribe,enrollmentId )
-                   .subscribe( borrado => {
-                     
-                   });
-       }
-
-     });
-
-  }
+}
 
 
 }

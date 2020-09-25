@@ -14,9 +14,11 @@ import { StudentComponent } from './student/student.component';
 import { EnrollmentComponent } from './enrollment/enrollment.component';
 import { InscriptionComponent } from './inscription/inscription.component';
 import { UserInfoComponent } from './user-info/user-info.component';
+import { EnrollmentsCourseComponent } from './enrollments-course/enrollments-course.component';
+import { InvoicesComponent } from './invoices/invoices.component';
 
 const pagesRoutes: Routes = [
-    {path: 'dashboard', component: DashboardComponent, canActivate:[LoginGuard], data: { titulo: 'Dashboard'} },
+    {path: 'dashboard', component: DashboardComponent, canActivate:[LoginGuard], data: { titulo: 'Resumen'} },
     {path: 'course-type', component: CourseTypeComponent, canActivate:[LoginGuard], data: { titulo: 'Tipos de cursos'} },
     {path: 'course-group', component: CourseGroupComponent, canActivate:[LoginGuard], data: { titulo: 'Niveles de cursos'} },
     {path: 'curricular-plan', component: CurricularPlanComponent, canActivate:[LoginGuard], data: { titulo: 'Plan curricular'} },
@@ -28,7 +30,9 @@ const pagesRoutes: Routes = [
     {path: 'classroom', component: ClassroomComponent, canActivate:[LoginGuard], data: { titulo: 'Aulas'} },
     {path: 'enrollment', component: EnrollmentComponent, canActivate:[LoginGuard], data: { titulo: 'Rectificación de Matrícula'} },
     {path: 'inscription', component: InscriptionComponent, canActivate:[LoginGuard], data: { titulo: 'Matrícula'} },
+    {path: 'enrollments-course', component: EnrollmentsCourseComponent, canActivate:[LoginGuard], data: { titulo: 'Matriculados por curso'} },
     {path: 'user-info', component: UserInfoComponent, canActivate:[LoginGuard], data: { titulo: 'Información personal'} },
+    {path: 'invoice', component: InvoicesComponent, canActivate:[LoginGuard], data: { titulo: 'Facturas'} },
     {path: '', redirectTo: '/dashboard', pathMatch: 'full'},
 ];
 
