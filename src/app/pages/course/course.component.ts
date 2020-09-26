@@ -14,6 +14,7 @@ import { ErrorManager } from 'src/app/errors/error-manager';
 declare var swal: any;
 import { CurricularPlan } from '../../models/curricular-plan';
 import { CurricularPlanService } from '../../services/curricular-plan.service';
+import { ModalUploadService } from 'src/app/services/modal-upload.service';
 
 @Component({
   selector: 'app-course',
@@ -55,16 +56,24 @@ export class CourseComponent implements OnInit {
   selectedRequirementRow2 = 0;
   selectedRequirement2: Course = new Course();
 
-
   @ViewChild('btnCloseModal', { static: false }) btnCloseModal: ElementRef;
-  
+  @ViewChild('btnActiveModal', { static: false }) btnActiveModal: ElementRef;
+
   constructor(public courseService: CourseService, public router: Router,
     public courseTypeService: CourseTypeService,
+    public modalUploadService: ModalUploadService,
     public curricularPlanService: CurricularPlanService,
     public requirementService: RequirementService,
     public courseGroupService: CourseGroupService,) { }
 
   ngOnInit() {
+
+
+    this.modalUploadService.notificacion
+    .subscribe(res => {
+      this.obtainCourse(this.selectedCourse._id);
+    });
+
     this.selectedCourse.name = '';
     this.getAllCurricularPlan();
     this.getAllCourseGroup();
@@ -126,10 +135,12 @@ export class CourseComponent implements OnInit {
   }
 
   insertCourse() {
+    this.btnActiveModal.nativeElement.click();
     this.selectedCourse = new Course('Nuevo curso');
     this.selectedCourse.courseGroupId = 0;
     this.selectedCourse.courseTypeId = 0;
     this.selectedCourse.curricularPlanId = 0;
+    this.selectedCourse.image = 'xx';
     this.loading4 = false;
     this.mode = 1;
   }
@@ -153,6 +164,10 @@ export class CourseComponent implements OnInit {
       } else{
           this.selectedCourse.selectedMoney = 'Soles'
       }
+
+      if (this.selectedCourse.image == '')
+      this.selectedCourse.image = 'xx';  
+
 
       this.mode = 2;
       this.loading4 = false;
@@ -414,6 +429,10 @@ export class CourseComponent implements OnInit {
     this.selectedRequirementRow2 = i;
     this.selectedRequirement2 = requirement;
    //this.obtainCurricularPlan(curricularPlan._id,1);
+  }
+
+  showModal(id: string) {
+    this.modalUploadService.showModal('courses', id);
   }
 
 }

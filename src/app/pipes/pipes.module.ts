@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { ImagePipe } from './image.pipe';
+import { ImagenPipe } from './imagen.pipe';
 
 
 @NgModule({
   declarations: [
-    ImagePipe
+    ImagePipe,
+    ImagenPipe
   ],
   imports: [
 

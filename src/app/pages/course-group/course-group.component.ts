@@ -57,9 +57,9 @@ export class CourseGroupComponent implements OnInit {
       this.totalPages = res.totalPages;
       this.page = (this.skip / this.pageSize) + 1;
       if (this.totalPages === 1) {
-        this.results = this.total + ' tipos en ' + this.totalPages + ' página.';
+        this.results = this.total + ' modalidades en ' + this.totalPages + ' página.';
       } else {
-        this.results = this.total + ' tipos en ' + this.totalPages + ' páginas.';
+        this.results = this.total + ' modalidades en ' + this.totalPages + ' páginas.';
       }
       this.loading = false;
 

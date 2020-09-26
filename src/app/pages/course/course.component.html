@@ -1,3 +1,6 @@
+<app-modal-upload-image>
+</app-modal-upload-image>
+
 <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
     <div class="modal-dialog" role="document">
 
@@ -228,7 +231,7 @@
                 </div>
                 <ul class="nav nav-tabs">
                     <li class="active" style="height: 50px;">
-                        <a href="#tab_1_1" data-toggle="tab" aria-expanded="true" style="margin-top: 3px;">
+                        <a #btnActiveModal href="#tab_1_1" data-toggle="tab" aria-expanded="true" style="margin-top: 3px;">
                     CURSO </a>
                     </li>
                     <li class="" style="height: 50px;">
@@ -341,6 +344,19 @@
                                     <input [(ngModel)]="selectedCourse.practicalHours" name="practicalHours" type="number" class="form-control">
                                 </div>
                             </div>
+
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <label>Imagen:</label>
+                                    <div>
+                                        <img class="form-control" [src]="selectedCourse.image | image:'courses':'masculino'" style="cursor: pointer;height: 300px;margin: 0px;" (click)="showModal(selectedCourse._id)" alt="sample image">
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
 
                             <div class="form-group row">
                                 <div class="col-md-6">

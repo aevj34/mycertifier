@@ -34,6 +34,10 @@ export class ImagePipe implements PipeTransform {
           url += 'teachers/' + img;
         break;
 
+        case 'courses':
+          url += 'courses/' + img;
+        break;
+
       default:
         console.log('tipo de imagen no existe');
         url += urlDefecto;
