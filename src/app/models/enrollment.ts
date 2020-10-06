@@ -1,4 +1,5 @@
 import { EnrollmentDetail } from './enrollment-detail';
+import { Student } from './student';
 
 export class Enrollment {
 
@@ -19,6 +20,11 @@ export class Enrollment {
         public subTotal?: number,
         public totalIgv?: number,
         public total?: number,
+        public student?: Student,
+        public dnis?: File,
+        public payments?: File,
+        public revalidations?: File[],
+        public experiences?: File[],
         public _id?: string,
         public unsubscribe?: boolean,
     ) { }

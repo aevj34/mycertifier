@@ -51,7 +51,9 @@ import { InvoicesComponent } from './invoices/invoices.component';
   ],
   exports: [
     DashboardComponent,
-    CourseTypeComponent
+    CourseTypeComponent,
+    LoadingSpinnerComponent,
+    LoadingSpinner2Component,
   ],
   imports: [
     CommonModule,

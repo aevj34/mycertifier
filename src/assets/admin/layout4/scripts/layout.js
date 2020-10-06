@@ -1,6 +1,7 @@
 /**
 Core script to handle the entire theme and core functions
 **/
+
 function init_layout() {
     Layout.init();
 }

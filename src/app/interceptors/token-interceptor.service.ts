@@ -16,9 +16,12 @@ export class TokenInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
    
     const re = '/login';
+    const re1 = '/courseType'
+    const re2 = '/student'
+    const re3 = '/enrollment'
 
     // Exclude interceptor for login request:
-    if (req.url.search(re) != -1) {
+    if (req.url.search(re) != -1 || req.url.search(re1) != -1 || req.url.search(re2) != -1 || req.url.search(re3) != -1) {
   
      // console.log('entroo');
       const headers = new HttpHeaders({

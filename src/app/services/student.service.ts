@@ -30,14 +30,19 @@ export class StudentService {
     return this.http.get(url);
   }
 
+  obtainByDocument(document: string) {
+    const url = URL_SERVICES + '/student/getByDocument?id=' + document ;
+    return this.http.get(url);
+  }
+
   insert( student: Student ) {
 
     const url = URL_SERVICES + '/student' ;
 
     return this.http.post( url, student )
       .pipe(map((resp: any) => {
-        swal('Alumno creado', student.name, 'success');
-        return resp.student;
+        swal('Alumno registrado', 'Se haregistrado a ' + student.name + ' ' + student.lastName + ' satisfactoriamente', 'success');
+        return resp;
       }
       ))
       .pipe(catchError( (error) => {

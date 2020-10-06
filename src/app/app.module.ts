@@ -15,12 +15,17 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptorService } from './interceptors/token-interceptor.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PipesModule } from './pipes/pipes.module';
+import { RegisterComponent } from './register/register.component';
+import { ErrorStateMatcher, MatButtonModule, MatCardModule, MatCheckboxModule, MatFormFieldControl, MatFormFieldModule, MatIconModule, MatInputModule, MatRadioButton, MatRadioModule, MatStepperModule, ShowOnDirtyErrorStateMatcher } from '@angular/material';
+import { PagesModule } from './pages/pages.module';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     PagesComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,11 +33,21 @@ import { PipesModule } from './pipes/pipes.module';
     CommonModule,
     RouterModule,
     FormsModule,
+    SharedModule,
+    PagesModule,
     ReactiveFormsModule,
     PipesModule,
-    SharedModule,
     APP_ROUTES,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatStepperModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCardModule,
+    MatRadioModule,
+    MatCheckboxModule
   ],
   providers: [
     {
@@ -40,6 +55,7 @@ import { PipesModule } from './pipes/pipes.module';
       useClass: TokenInterceptorService,
       multi: true
     },
+    {provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher}
   ],
   bootstrap: [AppComponent]
 })

@@ -337,5 +337,23 @@ export class ProgrammingComponent implements OnInit {
       else
         this.selectedProgramming.priceShow = 'S/.';
   }
+    
+  changeCourse(event: any){
+
+    this.courses.forEach(course => {
+      if (course._id == event.target.value.toString()){
+          this.selectedProgramming.price = course.price;
+
+          if (course.isDollar == true){
+            this.selectedProgramming.selectedMoney = 'Dolares'
+        } else{
+            this.selectedProgramming.selectedMoney = 'Soles'
+        }
+
+      }
+    });
+
+  }
+
 
 }

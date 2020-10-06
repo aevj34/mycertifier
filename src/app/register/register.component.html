@@ -1,0 +1,303 @@
+<h2 class="text-center"> INSCRIPCIONES CURSOS OMI - CIFMAR GROUP</h2>
+
+
+<div>
+    <mat-card style="margin-left: 10%;margin-right: 10%;">
+        <mat-horizontal-stepper [linear]="isLinear" #stepper>
+            <mat-step [stepControl]="firstFormGroup" errorMessage="Name is required.">
+
+                <form [formGroup]="firstFormGroup" (ngSubmit)="saveStudent(f)" ngNativeValidate #f="ngForm" style="border-radius:5px;border: 1px solid #E1E1E1;padding-left: 15px;padding-right: 15px;padding-top: 15px;">
+
+                    <ng-template style="background-color: transparent;" matStepLabel>DATOS PERSONALES</ng-template>
+
+                    <div class="well">
+                        Busca tu DNI y verifica si ya estás registrado en nuestra institución, si no lo estás llena los datos.
+                    </div>
+
+                    <div *ngIf="loading" class="portlet light" style="border: 1px solid #E1E1E1;">
+                        <div class="portlet-body">
+                            <app-loading-spinner class="text-center"> </app-loading-spinner>
+                        </div>
+                    </div>
+
+                    <ng-container *ngIf="!loading">
+
+
+                        <div class="portlet light" style="border: 1px solid #E1E1E1;">
+
+                            <div class="form row">
+                                <div class="col-md-6">
+                                    <div style="display: flex;">
+                                        <mat-form-field class="form-control" style="border: 0px solid #E1E1E1;height: 50px;">
+                                            <mat-label>DNI</mat-label>
+                                            <input #input matInput placeholder="DNI" maxlength="12" formControlName="dni" (keydown)="onKeydown($event, input.value)" aria-label="search" [(ngModel)]="selectedStudent.document">
+                                            <mat-error *ngIf="firstFormGroup.controls.dni.errors">
+                                                <ng-container *ngIf="firstFormGroup.controls.dni.errors.required">
+                                                    El DNI es <strong>obligatorio</strong>
+                                                </ng-container>
+                                            </mat-error>
+                                        </mat-form-field>
+                                        <button mat-icon-button style="margin-top:15px" color="primary" (click)="getByDocument(input.value)" aria-label="Example icon button with a home icon">
+                                                        <mat-icon>search</mat-icon>
+                                                      </button>
+
+
+                                    </div>
+
+                                </div>
+
+
+
+                            </div>
+
+                            <div class="form row">
+                                <div class="col-md-6">
+                                    <mat-form-field class="form-control" style="border: 0px solid #E1E1E1;height: 50px;">
+                                        <mat-label>PRIMER NOMBRE</mat-label>
+                                        <input [(ngModel)]="selectedStudent.name" name="name" matInput placeholder="PRIMER NOMBRE" formControlName="name" required>
+
+
+                                        <mat-error *ngIf="firstFormGroup.controls.name.errors">
+                                            <ng-container *ngIf="firstFormGroup.controls.name.errors.required">
+                                                El primer nombre es <strong>obligatorio</strong>
+                                            </ng-container>
+                                        </mat-error>
+
+
+
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="form-control" style="border: 0px solid #E1E1E1;height: 50px;">
+                                        <mat-label>SEGUNDO NOMBRE </mat-label>
+                                        <input [(ngModel)]="selectedStudent.secondName" name="secondName" matInput placeholder="SEGUNDO NOMBRE" formControlName="secondName" required>
+                                        <mat-error *ngIf="firstFormGroup.controls.secondName.errors">
+                                            <ng-container *ngIf="firstFormGroup.controls.secondName.errors.required">
+                                                El segundo nombre es <strong>obligatorio</strong>
+                                            </ng-container>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+
+                            </div>
+
+                            <div class="form row">
+
+                                <div class="col-md-6">
+                                    <mat-form-field class="form-control" style="border: 0px solid #E1E1E1;height: 50px;">
+                                        <mat-label>APELLIDO PATERNO</mat-label>
+                                        <input [(ngModel)]="selectedStudent.lastName" name="lastName" matInput placeholder="APELLIDO PATERNO" formControlName="lastName" required>
+                                        <mat-error *ngIf="firstFormGroup.controls.lastName.errors">
+                                            <ng-container *ngIf="firstFormGroup.controls.lastName.errors.required">
+                                                El apellido paterno es <strong>obligatorio</strong>
+                                            </ng-container>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+
+                                    <mat-form-field class="form-control" style="border: 0px solid #E1E1E1;height: 50px;">
+                                        <mat-label>APELLIDO MATERNO</mat-label>
+                                        <input [(ngModel)]="selectedStudent.secondLastName" name="secondLastName" matInput placeholder="APELLIDO MATERNO" formControlName="secondLastName" required>
+                                        <mat-error *ngIf="firstFormGroup.controls.secondLastName.errors">
+                                            <ng-container *ngIf="firstFormGroup.controls.secondLastName.errors.required">
+                                                El apellido materno es <strong>obligatorio</strong>
+                                            </ng-container>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="form row">
+                                <div class="col-md-6">
+                                    <mat-form-field class="form-control" style="border: 0px solid #E1E1E1;height: 50px;">
+                                        <mat-label>CORREO</mat-label>
+                                        <input [(ngModel)]="selectedStudent.email" name="email" matInput placeholder="CORREO ELECTRÓNICO" formControlName="email" required>
+                                        <mat-error *ngIf="firstFormGroup.controls.email.errors">
+                                            <ng-container *ngIf="firstFormGroup.controls.email.errors.required">
+                                                El correo electrónico es <strong>obligatorio</strong>
+                                            </ng-container>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field class="form-control" style="border: 0px solid #E1E1E1;height: 50px;">
+                                        <mat-label>TELÉFONO</mat-label>
+                                        <input [(ngModel)]="selectedStudent.phone" name="phone" matInput placeholder="TELÉFONO" formControlName="phone" required>
+                                        <mat-error *ngIf="firstFormGroup.controls.phone.errors">
+                                            <ng-container *ngIf="firstFormGroup.controls.phone.errors.required">
+                                                El teléfono es <strong>obligatorio</strong>
+                                            </ng-container>
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                            </div>
+
+                            <br>
+
+                        </div>
+
+                        <div *ngIf="message == 1" class="alert alert-warning">
+                            <strong style="margin-right: 10px;">ESTUDIANTE NO ENCONTRADO!</strong> La persona con DNI: {{selectedStudent.document}} no se encuentra registrado en nuestra institución, llena los datos y presiona siguiente para elegir los
+                            cursos.
+                        </div>
+
+                        <div *ngIf="message == 2" class="alert alert-success">
+                            <strong style="margin-right: 10px;">ESTUDIANTE ENCONTRADO!</strong> {{selectedStudent.name}} {{selectedStudent.lastName}} ya se encuentra registrado en nuestra institución. Presiona siguiente para elegir los cursos.
+                        </div>
+
+                        <div *ngIf="message == 3" class="alert alert-warning">
+                            <strong style="margin-right: 10px;">ESTUDIANTE REGISTRADO!</strong> El estudiante se ha registrado en nuestra institución, presiona siguiente para elegir los cursos.
+                        </div>
+
+                        <div class="text-center">
+                            <button *ngIf="loading3" mat-raised-button color="primary" matStepperPrevious style="margin-left: 10px;width: 200px; ">
+                                <app-loading-spinner2 class="text-center" style="margin-top: 25px;"> </app-loading-spinner2>
+                            </button>
+                            <button *ngIf="!loading3 && (message == 3 || message == 1)" mat-raised-button color="primary" type="submit" style="width: 200px;"> {{nameFirstButton}}</button>
+                            <button mat-raised-button color="primary" matStepperNext style="margin-left: 5px;">SIGUIENTE</button>
+                        </div>
+
+                        <br>
+                    </ng-container>
+                </form>
+
+
+            </mat-step>
+
+            <mat-step [stepControl]="secondFormGroup" errorMessage="Address is required.">
+                <form (ngSubmit)="saveEnrollment()" #f2="ngForm" style="border-radius:5px;border: 1px solid #E1E1E1;padding-left: 15px;padding-right: 15px;padding-top: 15px;">
+                    <ng-template matStepLabel>DATOS DEL CURSO</ng-template>
+
+                    <div class="form row">
+                        <div class="col-md-6" [formGroup]="secondFormGroup">
+
+                            <mat-form-field class="form-control" style="border: 0px solid #E1E1E1;height: 50px;">
+                                <mat-label>ID</mat-label>
+                                <input [(ngModel)]="selectedEnrollment._id" name="_id" matInput placeholder="ID" formControlName="_id" required>
+
+                                <mat-error *ngIf="secondFormGroup.controls._id.errors">
+                                    <ng-container *ngIf="secondFormGroup.controls._id.errors.required">
+                                        El primer nombre es <strong>obligatorio</strong>
+                                    </ng-container>
+                                </mat-error>
+
+
+
+                            </mat-form-field>
+
+
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="well">
+                        Seleciona el o los cursos que deseas llevar y indica si es nuevo o revalidación
+                    </div>
+
+                    <div class="panel-group accordion" id="accordion3">
+
+                        <div class="panel panel-default" *ngFor="let courseType of courseTypes">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a class="accordion-toggle accordion-toggle-styled collapsed" style="font-size: 14px;font-weight: bold;" data-toggle="collapse" data-parent="#accordion3" href="#{{courseType._id}}" aria-expanded="false">
+
+                                               {{courseType.name}} - {{ courseType.courses.length}} cursos registrados
+
+                                            </a>
+                                </h4>
+                            </div>
+                            <div id="{{courseType._id}}" class="panel-collapse collapse" aria-expanded="false" style="height: 0px;">
+                                <div class="panel-body">
+
+                                    <ul class="list-group">
+                                        <li *ngFor="let course of courseType.courses" class="list-group-item">
+                                            <mat-checkbox [(ngModel)]="course.isSelected" name="isSelected" class="example-margin">{{course.name}}</mat-checkbox>
+
+                                            <span class="badge" style="background-color: transparent;">
+                                                                        <mat-radio-group aria-label="Selecciona una opción">
+                                                                            <mat-radio-button style="color: black;opacity: 0.9;"  (change)="checkValueNew($event,course)" value="1">Nuevo</mat-radio-button>
+                                                                            <mat-radio-button style="color: black;opacity: 0.9;margin-left:15px;" (change)="checkValueRevalidation($event,course)" value="2">Revalidación</mat-radio-button>
+                                                                        </mat-radio-group>
+                                                                      
+                                                                    </span>
+                                        </li>
+
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                    <div *ngIf="enrollmentMessage" class="alert alert-success">
+                        <strong style="margin-right: 10px;">{{courseMessageHeader}}</strong> {{courseMessageSubHeader}}, presiona siguiente para elegir adjuntar los archivos necesarios.
+                    </div>
+
+                    <br>
+
+                    <div class="text-center">
+
+                        <button mat-raised-button color="primary" matStepperPrevious>ANTERIOR</button>
+
+                        <button *ngIf="loading3" mat-raised-button color="primary" matStepperPrevious style="margin-left: 5px;width: 200px; ">
+                            <app-loading-spinner2 class="text-center" style="margin-top: 25px;"> </app-loading-spinner2>
+                        </button>
+
+                        <button *ngIf="!loading3" mat-raised-button color="primary" type="submit" style="width: 200px;margin-left: 5px;"> GUARDAR CURSOS</button>
+
+                        <button mat-raised-button color="primary" type="button" matStepperNext style="margin-left: 5px;">SIGUIENTE</button>
+                    </div>
+
+                </form>
+
+
+
+
+            </mat-step>
+
+            <mat-step>
+
+                <form style="border-radius:5px;border: 1px solid #E1E1E1;padding-left: 15px;padding-right: 15px;padding-top: 15px;">
+
+                    <ng-template matStepLabel>DOCUMENTOS</ng-template>
+
+
+
+                    <br>
+                    <br>
+                    <br>
+
+
+
+                </form>
+
+                <br>
+                <div class="text-center">
+                    <button mat-raised-button color="primary" matStepperPrevious>ANTERIOR</button>
+                    <button mat-raised-button color="primary" *ngIf="!loading3" matStepperNext (click)="saveEnrollment()" style="margin-left: 10px;width: 120px; ">INSCRIBIRSE</button>
+
+                    <button *ngIf="loading3" mat-raised-button color="primary" matStepperPrevious style="margin-left: 10px;width: 120px; ">
+                        <app-loading-spinner2 class="text-center" style="margin-top: 25px;"> </app-loading-spinner2>
+                    </button>
+
+                </div>
+
+
+                <!-- <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button (click)="stepper.reset() ">Reset</button>
+                </div> -->
+            </mat-step>
+
+
+        </mat-horizontal-stepper>
+    </mat-card>
+</div>

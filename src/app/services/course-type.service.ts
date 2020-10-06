@@ -20,6 +20,11 @@ export class CourseTypeService {
     return this.http.get(url);
   }
 
+  GetAllWithCourses() {
+    const url = URL_SERVICES + '/courseType/GetAllWithCourses';
+    return this.http.get(url);
+  }
+
   search(search: string) {
     const url = URL_SERVICES + '/courseType/search/' + search ;
     return this.http.get(url);

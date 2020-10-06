@@ -85,7 +85,7 @@ export class LoginService {
     return this.http.post( url, user )
       .pipe(map((resp: any) => {
             localStorage.setItem('tk', resp.token);
-            this.router.navigate(['dashboard']);
+            this.router.navigate(['company/dashboard']);
             return true;  
       }
       ))

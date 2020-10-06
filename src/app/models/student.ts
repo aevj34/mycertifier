@@ -3,12 +3,12 @@ export class Student {
 
     constructor(
         public name?: string,
+        public secondName?: string,
         public lastName?: string,
+        public secondLastName?: string,
         public email?: string,
         public number?: number,
         public password?: string,
-        public secondLastName?: string,
-        public secondName?: string,
         public img?: string,
         public ruc?: string,
         public forceResetPassword?: boolean,

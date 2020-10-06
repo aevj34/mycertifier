@@ -17,6 +17,8 @@ export class EnrollmentDetail {
         public studentSecondLastName?: string,
         public studentEmail?: string,
         public studentPhone?: string,
+        public isNew?: boolean,
+        public isRevalidation?: boolean,
         public courseName?: string,
         public _id?: string,
         public unsubscribe?: boolean,

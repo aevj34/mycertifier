@@ -6,7 +6,7 @@ declare function init_demo(): any;
 declare function init_quickSidebar(): any;
 declare function init_index(): any;
 declare function init_task(): any;
-
+declare function init_UIGeneral(): any;
 
 @Component({
   selector: 'app-pages',
@@ -22,7 +22,7 @@ export class PagesComponent implements OnInit {
     init_layout();
     init_demo();
     init_quickSidebar();
-    //init_index();
+    init_UIGeneral();
     //init_task();
   }
 

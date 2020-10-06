@@ -41,8 +41,28 @@ export class EnrollmentService {
     return this.http.post( url, enrollment )
       .pipe(map((resp: any) => {
 
-        swal('Alumno matriculado', 'El alumno ' +student.name + ' ' + student.lastName + ' se matriculó en el curso', 'success');
-        return resp.enrollment;
+        swal('Cursos agregados', 'El alumno ' +student.name + ' ' + student.lastName + ' se matriculó en el curso', 'success');
+        return resp;
+
+      }
+      ))
+      .pipe(catchError( (error) => {
+        console.log(error);
+       return throwError(error);
+   }));
+  }
+
+  insertFree( enrollment: Enrollment, student: Student ) {
+
+    const url = URL_SERVICES + '/enrollment' ;
+   
+    console.log(enrollment);
+
+    return this.http.post( url, enrollment )
+      .pipe(map((resp: any) => {
+
+        swal('Curso(s) agregado(s)', ' Te has inscrito satisfactoriamente a o los cursos', 'success');
+        return resp;
 
       }
       ))
@@ -59,7 +79,7 @@ export class EnrollmentService {
     return this.http.put( url, enrollment )
       .pipe(map((resp: any) => {
         swal('Alumno actualizado', enrollment.studentName + ' ' + enrollment.studentLastName, 'success');
-        return resp.enrollment;
+        return resp;
       }
       ))
       .pipe(catchError( (error) => {
@@ -88,6 +108,28 @@ export class EnrollmentService {
        return throwError(error);
    }));
 
+  }
+
+
+
+  register( enrollment: Enrollment) {
+
+    const url = URL_SERVICES + '/enrollment/free' ;
+   
+    console.log(enrollment);
+
+    return this.http.post( url, enrollment )
+      .pipe(map((resp: any) => {
+
+        swal('Alumno matriculado', 'El alumno ' + enrollment.student.name + ' ' + enrollment.student.lastName + ' se matriculó en el curso', 'success');
+        return resp.enrollment;
+
+      }
+      ))
+      .pipe(catchError( (error) => {
+        console.log(error);
+       return throwError(error);
+   }));
   }
 
 
