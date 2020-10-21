@@ -1,6 +1,11 @@
 /**
 Core script to handle the entire theme and core functions
 **/
+function init_layout() {
+    Layout.init();
+}
+
+
 var Layout = function() {
 
     var layoutImgPath = 'admin/layout2/img/';
@@ -50,7 +55,7 @@ var Layout = function() {
 
     // Handle sidebar menu links
     var handleSidebarMenuActiveLink = function(mode, el) {
-        var url = location.hash.toLowerCase();    
+        var url = location.hash.toLowerCase();
 
         var menu = $('.page-sidebar-menu');
 
@@ -58,11 +63,11 @@ var Layout = function() {
             el = $(el);
         } else if (mode === 'match') {
             menu.find("li > a").each(function() {
-                var path = $(this).attr("href").toLowerCase();       
+                var path = $(this).attr("href").toLowerCase();
                 // url match condition         
                 if (path.length > 1 && url.substr(1, path.length - 1) == path.substr(1)) {
                     el = $(this);
-                    return; 
+                    return;
                 }
             });
         }
@@ -73,7 +78,7 @@ var Layout = function() {
 
         if (el.attr('href').toLowerCase() === 'javascript:;' || el.attr('href').toLowerCase() === '#') {
             return;
-        }        
+        }
 
         var slideSpeed = parseInt(menu.data("slide-speed"));
         var keepExpand = menu.data("keep-expanded");
@@ -83,24 +88,24 @@ var Layout = function() {
         menu.find('li > a > .selected').remove();
 
         if (menu.hasClass('page-sidebar-menu-hover-submenu') === false) {
-            menu.find('li.open').each(function(){
+            menu.find('li.open').each(function() {
                 if ($(this).children('.sub-menu').size() === 0) {
                     $(this).removeClass('open');
                     $(this).find('> a > .arrow.open').removeClass('open');
-                }                             
-            }); 
+                }
+            });
         } else {
-             menu.find('li.open').removeClass('open');
+            menu.find('li.open').removeClass('open');
         }
 
-        el.parents('li').each(function () {
+        el.parents('li').each(function() {
             $(this).addClass('active');
             $(this).find('> a > span.arrow').addClass('open');
 
             if ($(this).parent('ul.page-sidebar-menu').size() === 1) {
                 $(this).find('> a').append('<span class="selected"></span>');
             }
-            
+
             if ($(this).children('ul.sub-menu').size() === 1) {
                 $(this).addClass('open');
             }
@@ -268,9 +273,9 @@ var Layout = function() {
         });
 
         // handle scrolling to top on responsive menu toggler click when header is fixed for mobile view
-        $(document).on('click', '.page-header-fixed-mobile .page-header .responsive-toggler', function(){
+        $(document).on('click', '.page-header-fixed-mobile .page-header .responsive-toggler', function() {
             Metronic.scrollTop();
-        });      
+        });
     };
 
     // Helper function to calculate sidebar height for fixed sidebar layout.
@@ -302,14 +307,14 @@ var Layout = function() {
     };
 
     // Handles sidebar toggler to close/hide the sidebar.
-    var handleFixedSidebarHoverEffect = function () {
+    var handleFixedSidebarHoverEffect = function() {
         var body = $('body');
         if (body.hasClass('page-sidebar-fixed')) {
-            $('.page-sidebar').on('mouseenter', function () {
+            $('.page-sidebar').on('mouseenter', function() {
                 if (body.hasClass('page-sidebar-closed')) {
                     $(this).find('.page-sidebar-menu').removeClass('page-sidebar-menu-closed');
                 }
-            }).on('mouseleave', function () {
+            }).on('mouseleave', function() {
                 if (body.hasClass('page-sidebar-closed')) {
                     $(this).find('.page-sidebar-menu').addClass('page-sidebar-menu-closed');
                 }
@@ -530,7 +535,7 @@ var Layout = function() {
             handleSidebarMenu(); // handles main menu
             handleSidebarToggler(); // handles sidebar hide/show
 
-            if (Metronic.isAngularJsApp()) {      
+            if (Metronic.isAngularJsApp()) {
                 handleSidebarMenuActiveLink('match'); // init sidebar active links 
             }
 
@@ -549,7 +554,7 @@ var Layout = function() {
             handleGoTop(); //handles scroll to top functionality in the footer
         },
 
-        init: function () {            
+        init: function() {
             this.initHeader();
             this.initSidebar();
             this.initContent();
